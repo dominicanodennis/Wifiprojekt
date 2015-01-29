@@ -20,45 +20,51 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
-   WifiManager mainWifiObj;
-   WifiScanReceiver wifiReciever;
-   ListView list;
-   String wifis[];
-   public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_main);
-      list = (ListView)findViewById(R.id.listView1);
-      mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-      wifiReciever = new WifiScanReceiver();
-      mainWifiObj.startScan();
-   }
+	WifiManager mainWifiObj;
+	WifiScanReceiver wifiReciever;
+	ListView list;
+	String wifis[];
 
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		list = (ListView) findViewById(R.id.listView1);
+		mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		wifiReciever = new WifiScanReceiver();
+		mainWifiObj.startScan();
+	}
 
-   protected void onPause() {
-      unregisterReceiver(wifiReciever);
-      super.onPause();
-   }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return super.onCreateOptionsMenu(menu);
+	}
 
-   protected void onResume() {
-      registerReceiver(wifiReciever, new IntentFilter(
-      WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-      super.onResume();
-   }
+	protected void onPause() {
+		unregisterReceiver(wifiReciever);
+		super.onPause();
+	}
 
-   class WifiScanReceiver extends BroadcastReceiver {
-      @SuppressLint("UseValueOf")
-      public void onReceive(Context c, Intent intent) {
-         List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
-         wifis = new String[wifiScanList.size()];
-         for(int i = 0; i < wifiScanList.size(); i++){
-            wifis[i] = ((wifiScanList.get(i)).toString());
-         }
+	protected void onResume() {
+		registerReceiver(wifiReciever, new IntentFilter(
+				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+		super.onResume();
+	}
 
-         list.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
-         android.R.layout.simple_list_item_1,wifis));
-      }
-   }
+	class WifiScanReceiver extends BroadcastReceiver {
+		@SuppressLint("UseValueOf")
+		public void onReceive(Context c, Intent intent) {
+			List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
+			wifis = new String[wifiScanList.size()];
+			for (int i = 0; i < wifiScanList.size(); i++) {
+				wifis[i] = ((wifiScanList.get(i)).toString());
+			}
+
+			list.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
+					android.R.layout.simple_list_item_1, wifis));
+		}
+	}
 
 }
