@@ -15,8 +15,9 @@
       android:layout_alignParentTop="true"
       android:layout_centerHorizontal="true"
       android:drawSelectorOnTop="false"
-      android:background="@android:color/white"
-      android:listSelector="@android:color/darker_gray" >
+      android:background="#D66113"
+      android:textColor="#000000"
+      android:listSelector="#0A730A" >
 
    </ListView>
 
