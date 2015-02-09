@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity {
 	ListView list;
 	String wifis[];
 
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
