@@ -4,5 +4,6 @@
     <string name="app_name">Wifiprojekt</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Refresh</string>
+    <string name="update_info">Scanning</string>
 
 </resources>

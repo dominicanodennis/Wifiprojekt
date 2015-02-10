@@ -8,8 +8,6 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-
-
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,28 +21,41 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
-	WifiManager mainWifiObj;
-	WifiScanReceiver wifiReciever;
+	WifiManager WifiManagerObjekt;
+	WifiScannerReceiver wifiReceiver;
 	ListView list;
-	String wifis[];
-	Toast toast;
+	String wifiListe[];
+	Toast toast1, toast2, toast3;
 
 	@SuppressLint("ShowToast")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		list = (ListView) findViewById(R.id.listView1);
-		mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-		wifiReciever = new WifiScanReceiver();
-		mainWifiObj.startScan();
 
-		toast = Toast.makeText(this, "Bitte klicken das gewünschte Wlannetz",
-				5000);
-		toast.setGravity(Gravity.CENTER, 0, 75);
-		toast.show();
+		list = (ListView) findViewById(R.id.listView1);
+		WifiManagerObjekt = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+		if (!WifiManagerObjekt.isWifiEnabled()) {
+			toast2 = Toast.makeText(this, "Wlannetze werden gesucht", 5000);
+			toast2.setGravity(Gravity.CENTER, 0, 75);
+			toast2.show();
+			WifiManagerObjekt.setWifiEnabled(true);
+		}
+
+		wifiReceiver = new WifiScannerReceiver();
+		WifiManagerObjekt.startScan();
+
+		if (list != null) {
+			toast1 = Toast.makeText(getApplicationContext(),
+					"Bitte klicken Sie\ndas gewünschte Wlannetz", 10000);
+			toast1.setGravity(Gravity.CENTER, 0, 75);
+			toast1.show();
+
+		}
 
 	}
-	public void restartActivity(){
+
+	public void restartActivity() {
 		finish();
 		startActivity(getIntent());
 	}
@@ -69,27 +80,36 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	protected void onPause() {
-		unregisterReceiver(wifiReciever);
+		unregisterReceiver(wifiReceiver);
 		super.onPause();
 	}
 
 	protected void onResume() {
-		registerReceiver(wifiReciever, new IntentFilter(
+		registerReceiver(wifiReceiver, new IntentFilter(
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		super.onResume();
 	}
 
-	class WifiScanReceiver extends BroadcastReceiver {
+	class WifiScannerReceiver extends BroadcastReceiver {
 		@SuppressLint("UseValueOf")
 		public void onReceive(Context c, Intent intent) {
-			List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
-			wifis = new String[wifiScanList.size()];
+			List<ScanResult> wifiScanList = WifiManagerObjekt.getScanResults();
+			wifiListe = new String[wifiScanList.size()];
 			for (int i = 0; i < wifiScanList.size(); i++) {
-				wifis[i] = ((wifiScanList.get(i)).SSID.toString()+ " "+ wifiScanList.get(i).level);
+				wifiListe[i] = ((wifiScanList.get(i)).SSID.toString() + " " + wifiScanList
+						.get(i).level);
+
 			}
 
 			list.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
-					android.R.layout.simple_list_item_1, wifis));
+					android.R.layout.simple_list_item_1, wifiListe));
+
+			if (list != null) {
+				toast3 = Toast.makeText(getApplicationContext(),
+						R.string.update_info, 1000);
+				toast3.setGravity(Gravity.CENTER, 0, 75);
+				toast3.show();
+			}
 		}
 	}
 
