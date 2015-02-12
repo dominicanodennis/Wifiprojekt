@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -97,13 +100,24 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	class WifiReceiver extends BroadcastReceiver {
-		@SuppressLint("UseValueOf")
 		public void onReceive(Context c, Intent intent) {
 			List<ScanResult> scanresultate = wifimanager.getScanResults();
 			wifiliste = new String[scanresultate.size()];
+
+			Collections.sort(scanresultate, new Comparator<ScanResult>() {
+
+				@Override
+				public int compare(ScanResult lhs, ScanResult rhs) {
+					// TODO Auto-generated method stub
+					return (lhs.level > rhs.level ? -1
+							: (lhs.level == rhs.level ? 0 : 1));
+
+				}
+			});
+
 			for (int i = 0; i < scanresultate.size(); i++) {
-				wifiliste[i] = ((scanresultate.get(i)).SSID.toString() + " " + scanresultate
-						.get(i).level);
+				wifiliste[i] = ((scanresultate.get(i)).SSID.toString() + "  "
+						+ rechneRSSIinProzent(scanresultate.get(i).level) + "%");
 
 			}
 
@@ -119,14 +133,23 @@ public class MainActivity extends ActionBarActivity implements
 			}
 		}
 
+		public int rechneRSSIinProzent(int db) {
+
+			int prozent = 0;
+			prozent = 2 * (db + 100);
+			if (db >= -50) {
+				prozent = 100;
+			} else if (db <= -100) {
+				prozent = 0;
+			}
+			return prozent;
+		}
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
 		// TODO Auto-generated method stub
-		listview.setSelection(position);
-
 		return false;
 	}
 
