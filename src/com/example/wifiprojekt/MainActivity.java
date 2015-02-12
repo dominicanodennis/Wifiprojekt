@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,6 +23,7 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -32,7 +35,9 @@ public class MainActivity extends ActionBarActivity implements
 	WifiReceiver wifiReceiver;
 	ListView listview;
 	String wifiliste[];
+	ListAdapter adapter;
 	Toast toast1, toast2, toast3;
+	List<ScanResult> scanresultate;
 
 	@SuppressLint("ShowToast")
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,9 +53,20 @@ public class MainActivity extends ActionBarActivity implements
 			toast2.show();
 			wifimanager.setWifiEnabled(true);
 		}
+		scanne();
 
-		wifiReceiver = new WifiReceiver();
-		wifimanager.startScan();
+//		wifiReceiver = new WifiReceiver();
+//		wifimanager.startScan();
+
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Dialog action = new Dialog(MainActivity.this, (scanresultate
+						.get(position)).toString());
+				action.showDialog();
+			}
+		});
 
 		if (listview != null) {
 			toast1 = Toast.makeText(getApplicationContext(),
@@ -59,9 +75,13 @@ public class MainActivity extends ActionBarActivity implements
 			toast1.show();
 
 		}
+	}
 
-		// listview.getOnItemLongClickListener();
-
+	public void scanne() {
+		wifiReceiver = new WifiReceiver();
+		registerReceiver(wifiReceiver, new IntentFilter(
+				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+		wifimanager.startScan();
 	}
 
 	public void restartActivity() {
@@ -101,7 +121,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	class WifiReceiver extends BroadcastReceiver {
 		public void onReceive(Context c, Intent intent) {
-			List<ScanResult> scanresultate = wifimanager.getScanResults();
+			scanresultate = wifimanager.getScanResults();
 			wifiliste = new String[scanresultate.size()];
 
 			Collections.sort(scanresultate, new Comparator<ScanResult>() {
@@ -121,9 +141,14 @@ public class MainActivity extends ActionBarActivity implements
 
 			}
 
-			listview.setAdapter(new ArrayAdapter<String>(
-					getApplicationContext(),
-					android.R.layout.simple_list_item_1, wifiliste));
+//			listview.setAdapter(new ArrayAdapter<String>(
+//					getApplicationContext(),
+//					android.R.layout.simple_list_item_1, wifiliste));
+			List<String> wifiliste2 = new ArrayList<String>(Arrays.asList(wifiliste));
+			
+			adapter = new ListAdapter(MainActivity.this, wifiliste2);
+			listview.setAdapter(adapter);
+			adapter.notifyDataSetChanged();
 
 			if (listview != null) {
 				toast3 = Toast.makeText(getApplicationContext(),
