@@ -55,16 +55,22 @@ public class MainActivity extends ActionBarActivity implements
 		}
 		scanne();
 
-//		wifiReceiver = new WifiReceiver();
-//		wifimanager.startScan();
-
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Dialog action = new Dialog(MainActivity.this, (scanresultate
-						.get(position)).toString());
+
+				Dialog action = new Dialog(MainActivity.this,
+						("Wifiname:       " + scanresultate.get(position).SSID)
+								.toString()
+								+ " \n"
+								+ "Netzstärke:    "
+								+ rechneRSSIinProzent(scanresultate.get(position).level)+" %"
+								+ " \n"
+								+ "Macadresse:  "
+								+ scanresultate.get(position).BSSID);
 				action.showDialog();
+
 			}
 		});
 
@@ -75,6 +81,17 @@ public class MainActivity extends ActionBarActivity implements
 			toast1.show();
 
 		}
+	}
+	public int rechneRSSIinProzent(int db) {
+
+		int prozent = 0;
+		prozent = 2 * (db + 100);
+		if (db >= -50) {
+			prozent = 100;
+		} else if (db <= -100) {
+			prozent = 0;
+		}
+		return prozent;
 	}
 
 	public void scanne() {
@@ -141,14 +158,15 @@ public class MainActivity extends ActionBarActivity implements
 
 			}
 
-//			listview.setAdapter(new ArrayAdapter<String>(
-//					getApplicationContext(),
-//					android.R.layout.simple_list_item_1, wifiliste));
-			List<String> wifiliste2 = new ArrayList<String>(Arrays.asList(wifiliste));
-			
-			adapter = new ListAdapter(MainActivity.this, wifiliste2);
-			listview.setAdapter(adapter);
-			adapter.notifyDataSetChanged();
+			listview.setAdapter(new ArrayAdapter<String>(
+					getApplicationContext(),
+					android.R.layout.simple_list_item_1, wifiliste));
+			List<String> wifiliste2 = new ArrayList<String>(
+					Arrays.asList(wifiliste));
+
+			// adapter = new ListAdapter(MainActivity.this, wifiliste2);
+			// listview.setAdapter(adapter);
+			// adapter.notifyDataSetChanged();
 
 			if (listview != null) {
 				toast3 = Toast.makeText(getApplicationContext(),
