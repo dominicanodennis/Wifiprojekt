@@ -39,7 +39,6 @@ public class MainActivity extends ActionBarActivity implements
 	Toast toast1, toast2, toast3;
 	List<ScanResult> scanresultate;
 
-	@SuppressLint("ShowToast")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -65,7 +64,9 @@ public class MainActivity extends ActionBarActivity implements
 								.toString()
 								+ " \n"
 								+ "Netzstärke:    "
-								+ rechneRSSIinProzent(scanresultate.get(position).level)+" %"
+								+ rechneRSSIinProzent(scanresultate
+										.get(position).level)
+								+ " %"
 								+ " \n"
 								+ "Macadresse:  "
 								+ scanresultate.get(position).BSSID);
@@ -82,6 +83,7 @@ public class MainActivity extends ActionBarActivity implements
 
 		}
 	}
+
 	public int rechneRSSIinProzent(int db) {
 
 		int prozent = 0;
