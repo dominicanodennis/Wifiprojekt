@@ -3,6 +3,7 @@ package com.example.wifiprojekt;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.internal.widget.AdapterViewCompat.OnItemLongClickListener;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity implements
-		android.widget.AdapterView.OnItemLongClickListener {
+public class MainActivity extends ActionBarActivity {
 
 	WifiManager wifimanager;
 	WifiReceiver wifiReceiver;
@@ -53,18 +53,17 @@ public class MainActivity extends ActionBarActivity implements
 			wifimanager.setWifiEnabled(true);
 		}
 		scanne();
-
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-
+				RssiRechner rssi2 = new RssiRechner();
 				Dialog action = new Dialog(MainActivity.this,
 						("Wifiname:       " + scanresultate.get(position).SSID)
 								.toString()
 								+ " \n"
 								+ "Netzstärke:    "
-								+ rechneRSSIinProzent(scanresultate
+								+ rssi2.rechneRSSIinProzent(scanresultate
 										.get(position).level)
 								+ " %"
 								+ " \n"
@@ -84,23 +83,12 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	}
 
-	public int rechneRSSIinProzent(int db) {
-
-		int prozent = 0;
-		prozent = 2 * (db + 100);
-		if (db >= -50) {
-			prozent = 100;
-		} else if (db <= -100) {
-			prozent = 0;
-		}
-		return prozent;
-	}
-
 	public void scanne() {
 		wifiReceiver = new WifiReceiver();
 		registerReceiver(wifiReceiver, new IntentFilter(
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		wifimanager.startScan();
+
 	}
 
 	public void restartActivity() {
@@ -153,18 +141,20 @@ public class MainActivity extends ActionBarActivity implements
 
 				}
 			});
+			RssiRechner rssi = new RssiRechner();
 
 			for (int i = 0; i < scanresultate.size(); i++) {
 				wifiliste[i] = ((scanresultate.get(i)).SSID.toString() + "  "
-						+ rechneRSSIinProzent(scanresultate.get(i).level) + "%");
+						+ rssi.rechneRSSIinProzent(scanresultate.get(i).level) + "%");
 
 			}
 
-			listview.setAdapter(new ArrayAdapter<String>(
-					getApplicationContext(),
-					android.R.layout.simple_list_item_1, wifiliste));
 			List<String> wifiliste2 = new ArrayList<String>(
 					Arrays.asList(wifiliste));
+			listview.setAdapter(new ArrayAdapter<String>(
+					getApplicationContext(),
+					android.R.layout.simple_list_item_1, wifiliste2));
+			
 
 			// adapter = new ListAdapter(MainActivity.this, wifiliste2);
 			// listview.setAdapter(adapter);
@@ -178,24 +168,6 @@ public class MainActivity extends ActionBarActivity implements
 			}
 		}
 
-		public int rechneRSSIinProzent(int db) {
-
-			int prozent = 0;
-			prozent = 2 * (db + 100);
-			if (db >= -50) {
-				prozent = 100;
-			} else if (db <= -100) {
-				prozent = 0;
-			}
-			return prozent;
-		}
-	}
-
-	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View view,
-			int position, long id) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
