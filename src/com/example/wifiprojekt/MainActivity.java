@@ -69,7 +69,9 @@ public class MainActivity extends ActionBarActivity {
 								+ " \n"
 								+ "Macadresse:  "
 								+ scanresultate.get(position).BSSID);
+				
 				action.showDialog();
+				String ssid = scanresultate.get(position).BSSID;
 
 			}
 		});
