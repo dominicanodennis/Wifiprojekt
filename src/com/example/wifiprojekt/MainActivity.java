@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
+import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -38,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
 	ListAdapter adapter;
 	Toast toast1, toast2, toast3;
 	List<ScanResult> scanresultate;
+	int netId;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,8 +53,25 @@ public class MainActivity extends ActionBarActivity {
 			toast2.setGravity(Gravity.CENTER, 0, 75);
 			toast2.show();
 			wifimanager.setWifiEnabled(true);
+			if(wifimanager.getConnectionInfo() != null){
+				netId = wifimanager.getConnectionInfo().getNetworkId();
+				// wifimanager.saveConfiguration();
+				wifimanager.disableNetwork(netId);
+			}
+			
+			
 		}
+
+//		if (wifimanager.getConnectionInfo() != null) {
+//
+//			netId = wifimanager.getConnectionInfo().getNetworkId();
+//			// wifimanager.saveConfiguration();
+//			wifimanager.disableNetwork(netId);
+//
+//		}
+
 		scanne();
+
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -68,8 +87,10 @@ public class MainActivity extends ActionBarActivity {
 								+ " %"
 								+ " \n"
 								+ "Macadresse:  "
-								+ scanresultate.get(position).BSSID);
-				
+								+ scanresultate.get(position).BSSID
+								+ " "
+								+ wifimanager.getConnectionInfo());
+
 				action.showDialog();
 				String ssid = scanresultate.get(position).BSSID;
 
@@ -122,6 +143,20 @@ public class MainActivity extends ActionBarActivity {
 		super.onPause();
 	}
 
+	@Override
+	protected void onStop() {
+		wifimanager.enableNetwork(netId, true);
+		super.onStop();
+	}
+
+	@Override
+	protected void onRestart() {
+		if (!wifimanager.isWifiEnabled())
+			wifimanager.setWifiEnabled(true);
+		wifimanager.disableNetwork(netId);
+		super.onRestart();
+	}
+
 	protected void onResume() {
 		registerReceiver(wifiReceiver, new IntentFilter(
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
@@ -156,7 +191,6 @@ public class MainActivity extends ActionBarActivity {
 			listview.setAdapter(new ArrayAdapter<String>(
 					getApplicationContext(),
 					android.R.layout.simple_list_item_1, wifiliste2));
-			
 
 			// adapter = new ListAdapter(MainActivity.this, wifiliste2);
 			// listview.setAdapter(adapter);
