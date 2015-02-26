@@ -41,6 +41,7 @@ public class MainActivity extends ActionBarActivity {
 	Toast toast1, toast2, toast3, toast4;
 	List<ScanResult> scanresultate;
 	int netId;
+	String bssid;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
 
 			// wifimanager.getConnectionInfo().getNetworkId();
 			// wifimanager.disableNetwork(netId);
-			disableAllNetworks();
+			// disableAllNetworks();
 
 		} else {
 
@@ -111,13 +112,16 @@ public class MainActivity extends ActionBarActivity {
 	public void disableAllNetworks() {
 		List<WifiConfiguration> wificonfigliste = wifimanager
 				.getConfiguredNetworks();
-	//	if(wificonfigliste.isEmpty())
+		// if (wificonfigliste.isEmpty()) {
+
 		for (WifiConfiguration config : wificonfigliste) {
 			this.netId = config.networkId;
 			wifimanager.disableNetwork(this.netId);
 		}
+
 	}
-	public void enableAllNetworks(){
+
+	public void enableAllNetworks() {
 		List<WifiConfiguration> wificonfigliste = wifimanager
 				.getConfiguredNetworks();
 		for (WifiConfiguration config : wificonfigliste) {
@@ -166,7 +170,7 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onStop() {
-		//wifimanager.enableNetwork(netId, true);
+		// wifimanager.enableNetwork(netId, true);
 		enableAllNetworks();
 		super.onStop();
 	}
@@ -175,9 +179,9 @@ public class MainActivity extends ActionBarActivity {
 	protected void onRestart() {
 		if (!wifimanager.isWifiEnabled())
 			wifimanager.setWifiEnabled(true);
-		
+
 		disableAllNetworks();
-	//	wifimanager.disableNetwork(netId);
+		// wifimanager.disableNetwork(netId);
 		super.onRestart();
 	}
 
