@@ -96,6 +96,7 @@ public class MainActivity extends ActionBarActivity {
 
 				action.showDialog();
 				String ssid = scanresultate.get(position).BSSID;
+			
 
 			}
 		});

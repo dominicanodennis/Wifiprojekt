@@ -20,32 +20,27 @@ public class Dialog extends DialogFragment {
 		this.activity = a;
 		this.detailProvider = detailProvader;
 		builder = new AlertDialog.Builder(a);
-		
+
 		builder.setPositiveButton("Tracken", new OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				
+				// Intent intent = new Intent(MainActivity.this,
+				// TrackingActivity.class);
+				// startActivity(intent);
+
 			}
 		});
 		builder.setNeutralButton("zurück", new OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 
-//		builder.setNegativeButton("no", new OnClickListener() {
-//
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
 	}
 
 	public void showDialog() {
