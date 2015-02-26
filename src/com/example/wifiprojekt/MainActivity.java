@@ -60,6 +60,7 @@ public class MainActivity extends ActionBarActivity {
 
 			// wifimanager.getConnectionInfo().getNetworkId();
 			// wifimanager.disableNetwork(netId);
+			disableAllNetworks();
 
 		} else {
 
@@ -110,6 +111,7 @@ public class MainActivity extends ActionBarActivity {
 	public void disableAllNetworks() {
 		List<WifiConfiguration> wificonfigliste = wifimanager
 				.getConfiguredNetworks();
+	//	if(wificonfigliste.isEmpty())
 		for (WifiConfiguration config : wificonfigliste) {
 			this.netId = config.networkId;
 			wifimanager.disableNetwork(this.netId);
