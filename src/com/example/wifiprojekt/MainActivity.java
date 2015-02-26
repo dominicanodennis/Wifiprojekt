@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -68,6 +69,13 @@ public class MainActivity extends ActionBarActivity {
 		wifimanager.disableNetwork(netId);
 
 		scanne();
+		
+		List<WifiConfiguration> wificonfigliste = wifimanager.getConfiguredNetworks();
+		for(WifiConfiguration config : wificonfigliste){
+			netId = config.networkId;
+			wifimanager.disableNetwork(netId);
+		}
+		
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -85,8 +93,8 @@ public class MainActivity extends ActionBarActivity {
 								+ " \n"
 								+ "Macadresse:  "
 								+ scanresultate.get(position).BSSID
-								+ " "
-								+ wifimanager.getConnectionInfo());
+								+ "           \n"
+								+ wifimanager.getConfiguredNetworks());
 
 				action.showDialog();
 				String ssid = scanresultate.get(position).BSSID;
