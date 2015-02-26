@@ -58,24 +58,20 @@ public class MainActivity extends ActionBarActivity {
 			toast2.show();
 			wifimanager.setWifiEnabled(true);
 
-			wifimanager.getConnectionInfo().getNetworkId();
-			wifimanager.disableNetwork(netId);
+			// wifimanager.getConnectionInfo().getNetworkId();
+			// wifimanager.disableNetwork(netId);
 
 		} else {
 
-			wifimanager.getConnectionInfo().getNetworkId();
-			wifimanager.disableNetwork(netId);
+			disableAllNetworks();
+
+			// wifimanager.getConnectionInfo().getNetworkId();
+			// wifimanager.disableNetwork(netId);
 		}
-		wifimanager.disableNetwork(netId);
+		// wifimanager.disableNetwork(netId);
+		disableAllNetworks();
 
 		scanne();
-		
-		List<WifiConfiguration> wificonfigliste = wifimanager.getConfiguredNetworks();
-		for(WifiConfiguration config : wificonfigliste){
-			netId = config.networkId;
-			wifimanager.disableNetwork(netId);
-		}
-		
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -108,6 +104,23 @@ public class MainActivity extends ActionBarActivity {
 			toast1.setGravity(Gravity.CENTER, 0, 75);
 			toast1.show();
 
+		}
+	}
+
+	public void disableAllNetworks() {
+		List<WifiConfiguration> wificonfigliste = wifimanager
+				.getConfiguredNetworks();
+		for (WifiConfiguration config : wificonfigliste) {
+			this.netId = config.networkId;
+			wifimanager.disableNetwork(this.netId);
+		}
+	}
+	public void enableAllNetworks(){
+		List<WifiConfiguration> wificonfigliste = wifimanager
+				.getConfiguredNetworks();
+		for (WifiConfiguration config : wificonfigliste) {
+			this.netId = config.networkId;
+			wifimanager.enableNetwork(this.netId, true);
 		}
 	}
 
@@ -151,7 +164,8 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onStop() {
-		wifimanager.enableNetwork(netId, true);
+		//wifimanager.enableNetwork(netId, true);
+		enableAllNetworks();
 		super.onStop();
 	}
 
@@ -159,7 +173,9 @@ public class MainActivity extends ActionBarActivity {
 	protected void onRestart() {
 		if (!wifimanager.isWifiEnabled())
 			wifimanager.setWifiEnabled(true);
-		wifimanager.disableNetwork(netId);
+		
+		disableAllNetworks();
+	//	wifimanager.disableNetwork(netId);
 		super.onRestart();
 	}
 
