@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
 	ListView listview;
 	String wifiliste[];
 	ListAdapter adapter;
-	Toast toast1, toast2, toast3;
+	Toast toast1, toast2, toast3, toast4;
 	List<ScanResult> scanresultate;
 	int netId;
 
@@ -49,26 +49,23 @@ public class MainActivity extends ActionBarActivity {
 		wifimanager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
 		if (!wifimanager.isWifiEnabled()) {
+			toast4 = Toast.makeText(this, "schalte Wlan ein", 1500);
+			toast4.setGravity(Gravity.CENTER, 0, 75);
+			toast4.show();
 			toast2 = Toast.makeText(this, "Wlannetze werden gesucht", 5000);
 			toast2.setGravity(Gravity.CENTER, 0, 75);
 			toast2.show();
 			wifimanager.setWifiEnabled(true);
-			if(wifimanager.getConnectionInfo() != null){
-				netId = wifimanager.getConnectionInfo().getNetworkId();
-				// wifimanager.saveConfiguration();
-				wifimanager.disableNetwork(netId);
-			}
-			
-			
-		}
 
-//		if (wifimanager.getConnectionInfo() != null) {
-//
-//			netId = wifimanager.getConnectionInfo().getNetworkId();
-//			// wifimanager.saveConfiguration();
-//			wifimanager.disableNetwork(netId);
-//
-//		}
+			wifimanager.getConnectionInfo().getNetworkId();
+			wifimanager.disableNetwork(netId);
+
+		} else {
+
+			wifimanager.getConnectionInfo().getNetworkId();
+			wifimanager.disableNetwork(netId);
+		}
+		wifimanager.disableNetwork(netId);
 
 		scanne();
 
@@ -117,6 +114,7 @@ public class MainActivity extends ActionBarActivity {
 	public void restartActivity() {
 		finish();
 		startActivity(getIntent());
+
 	}
 
 	@Override
