@@ -12,6 +12,6 @@
     <string name="dialog_text">Do you wish to proceed?</string>
     <string name="target">target</string>
     <string name="target_descr">passed values</string>
-    <string name="list_item_key_text">Value:</string>
+    <string name="list_item_key_text">Wlan:</string>
 
 </resources>
