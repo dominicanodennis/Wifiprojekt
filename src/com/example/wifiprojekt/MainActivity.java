@@ -59,18 +59,12 @@ public class MainActivity extends ActionBarActivity {
 			toast2.show();
 			wifimanager.setWifiEnabled(true);
 
-			// wifimanager.getConnectionInfo().getNetworkId();
-			// wifimanager.disableNetwork(netId);
-			// disableAllNetworks();
-
 		} else {
 
 			disableAllNetworks();
 
-			// wifimanager.getConnectionInfo().getNetworkId();
-			// wifimanager.disableNetwork(netId);
 		}
-		// wifimanager.disableNetwork(netId);
+
 		disableAllNetworks();
 
 		scanne();
@@ -80,23 +74,30 @@ public class MainActivity extends ActionBarActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				RssiRechner rssi2 = new RssiRechner();
-				Dialog action = new Dialog(MainActivity.this,
-						("Wifiname:       " + scanresultate.get(position).SSID)
-								.toString()
-								+ " \n"
-								+ "Netzstärke:    "
-								+ rssi2.rechneRSSIinProzent(scanresultate
-										.get(position).level)
-								+ " %"
-								+ " \n"
-								+ "Macadresse:  "
-								+ scanresultate.get(position).BSSID
-								+ "           \n"
-								+ wifimanager.getConfiguredNetworks());
+				MyListAdapter list = (MyListAdapter) parent.getAdapter();
+				// Dialog action = new Dialog(MainActivity.this,
+				// ("Wifiname:       " + scanresultate.get(position).SSID)
+				// .toString()
+				// + " \n"
+				// + "Netzstärke:    "
+				// + rssi2.rechneRSSIinProzent(scanresultate
+				// .get(position).level)
+				// + " %"
+				// + " \n"
+				// + "Macadresse:  "
+				// + scanresultate.get(position).BSSID
+				// + "           \n");
+				//
+				// action.showDialog();
+				// String ssid = scanresultate.get(position).BSSID;
+				String item = list.getItem(position);
 
-				action.showDialog();
-				String ssid = scanresultate.get(position).BSSID;
-			
+				Bundle bundle = new Bundle();
+				bundle.putString("huhu", item);
+
+				MyFragmentDialog myFragmentDialog = MyFragmentDialog
+						.newInstance(1, bundle);
+				myFragmentDialog.show(getFragmentManager(), "");
 
 			}
 		});
@@ -113,7 +114,6 @@ public class MainActivity extends ActionBarActivity {
 	public void disableAllNetworks() {
 		List<WifiConfiguration> wificonfigliste = wifimanager
 				.getConfiguredNetworks();
-		// if (wificonfigliste.isEmpty()) {
 
 		for (WifiConfiguration config : wificonfigliste) {
 			this.netId = config.networkId;
@@ -171,7 +171,6 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onStop() {
-		// wifimanager.enableNetwork(netId, true);
 		enableAllNetworks();
 		super.onStop();
 	}
@@ -180,9 +179,7 @@ public class MainActivity extends ActionBarActivity {
 	protected void onRestart() {
 		if (!wifimanager.isWifiEnabled())
 			wifimanager.setWifiEnabled(true);
-
 		disableAllNetworks();
-		// wifimanager.disableNetwork(netId);
 		super.onRestart();
 	}
 
@@ -201,7 +198,6 @@ public class MainActivity extends ActionBarActivity {
 
 				@Override
 				public int compare(ScanResult lhs, ScanResult rhs) {
-					// TODO Auto-generated method stub
 					return (lhs.level > rhs.level ? -1
 							: (lhs.level == rhs.level ? 0 : 1));
 
@@ -217,13 +213,8 @@ public class MainActivity extends ActionBarActivity {
 
 			List<String> wifiliste2 = new ArrayList<String>(
 					Arrays.asList(wifiliste));
-			listview.setAdapter(new ArrayAdapter<String>(
-					getApplicationContext(),
-					android.R.layout.simple_list_item_1, wifiliste2));
-
-			// adapter = new ListAdapter(MainActivity.this, wifiliste2);
-			// listview.setAdapter(adapter);
-			// adapter.notifyDataSetChanged();
+			listview.setAdapter(new MyListAdapter(getApplicationContext(),
+					R.layout.list_item, wifiliste2));
 
 			if (listview != null) {
 				toast3 = Toast.makeText(getApplicationContext(),

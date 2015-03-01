@@ -6,5 +6,12 @@
     <string name="action_settings">Refresh</string>
     <string name="update_info">Scanning</string>
     <string name="title_activity_tracking">TrackingActivity</string>
+    <string name="do_start">start dialog</string>
+    <string name="abort">Cancel</string>
+    <string name="next_activity">next</string>
+    <string name="dialog_text">Do you wish to proceed?</string>
+    <string name="target">target</string>
+    <string name="target_descr">passed values</string>
+    <string name="list_item_key_text">Value:</string>
 
 </resources>
