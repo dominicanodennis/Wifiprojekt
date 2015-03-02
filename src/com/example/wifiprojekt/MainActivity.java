@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
@@ -59,20 +61,13 @@ public class MainActivity extends ActionBarActivity {
 			toast2.show();
 			wifimanager.setWifiEnabled(true);
 
-			// wifimanager.getConnectionInfo().getNetworkId();
-			// wifimanager.disableNetwork(netId);
-			// disableAllNetworks();
-
 		} else {
 
 			disableAllNetworks();
 
-			// wifimanager.getConnectionInfo().getNetworkId();
-			// wifimanager.disableNetwork(netId);
 		}
-		// wifimanager.disableNetwork(netId);
-		disableAllNetworks();
 
+		disableAllNetworks();
 		scanne();
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,23 +75,34 @@ public class MainActivity extends ActionBarActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				RssiRechner rssi2 = new RssiRechner();
-				Dialog action = new Dialog(MainActivity.this,
-						("Wifiname:       " + scanresultate.get(position).SSID)
-								.toString()
-								+ " \n"
-								+ "Netzstärke:    "
-								+ rssi2.rechneRSSIinProzent(scanresultate
-										.get(position).level)
-								+ " %"
-								+ " \n"
-								+ "Macadresse:  "
-								+ scanresultate.get(position).BSSID
-								+ "           \n"
-								+ wifimanager.getConfiguredNetworks());
+				// Dialog action = new Dialog(MainActivity.this,
+				// ("Wifiname:       " + scanresultate.get(position).SSID)
+				// .toString()
+				// + " \n"
+				// + "Netzstärke:    "
+				// + rssi2.rechneRSSIinProzent(scanresultate
+				// .get(position).level)
+				// + " %"
+				// + " \n"
+				// + "Macadresse:  "
+				// + scanresultate.get(position).BSSID
+				// + "           \n"
+				// + wifimanager.getConfiguredNetworks());
+				//
+				// action.showDialog();
+				//
+				//
+				// Intent intent = new Intent();
+				//
 
-				action.showDialog();
-				String ssid = scanresultate.get(position).BSSID;
-			
+				// Versuch Daten in nächste Activity zu bekommen ohne Dialogfragment
+				String ssid = "SSID:  " + scanresultate.get(position).SSID;// +
+																			// "\n"
+				// + scanresultate.get(position).BSSID;
+				Intent intent = new Intent(MainActivity.this,
+						TrackingActivity.class);
+				intent.putExtra("wifiname", ssid);
+				startActivity(intent);
 
 			}
 		});
@@ -113,7 +119,6 @@ public class MainActivity extends ActionBarActivity {
 	public void disableAllNetworks() {
 		List<WifiConfiguration> wificonfigliste = wifimanager
 				.getConfiguredNetworks();
-		// if (wificonfigliste.isEmpty()) {
 
 		for (WifiConfiguration config : wificonfigliste) {
 			this.netId = config.networkId;
@@ -147,14 +152,12 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			restartActivity();
@@ -201,7 +204,6 @@ public class MainActivity extends ActionBarActivity {
 
 				@Override
 				public int compare(ScanResult lhs, ScanResult rhs) {
-					// TODO Auto-generated method stub
 					return (lhs.level > rhs.level ? -1
 							: (lhs.level == rhs.level ? 0 : 1));
 

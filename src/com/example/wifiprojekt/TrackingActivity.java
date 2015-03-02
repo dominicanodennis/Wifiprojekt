@@ -1,28 +1,28 @@
 package com.example.wifiprojekt;
 
 import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class TrackingActivity extends ActionBarActivity {
+
+	String empfaenger;
+	TextView textfeld;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracking);
-		
 
-	}
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
-		super.onSaveInstanceState(outState);
-	}
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onRestoreInstanceState(savedInstanceState);
+		Intent intent = getIntent();
+		String empfang = intent.getExtras().getString("wifiname");
+
+		textfeld = (TextView) findViewById(R.id.textView1);
+		textfeld.setText(empfang);
+
 	}
 
 	@Override
@@ -43,4 +43,5 @@ public class TrackingActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 }

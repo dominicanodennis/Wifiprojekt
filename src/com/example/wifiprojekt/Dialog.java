@@ -9,8 +9,6 @@ import android.content.Intent;
 
 public class Dialog extends DialogFragment {
 
-	final CharSequence[] items = { "Take Photo From Gallery",
-			"Take Photo From Camera" };
 	Activity activity;
 	AlertDialog dialog;
 	AlertDialog.Builder builder;
@@ -25,8 +23,8 @@ public class Dialog extends DialogFragment {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				
-				// Intent intent = new Intent(MainActivity.this,
+
+				// Intent intent = new Intent(getActivity(),
 				// TrackingActivity.class);
 				// startActivity(intent);
 
