@@ -95,7 +95,8 @@ public class MainActivity extends ActionBarActivity {
 				// Intent intent = new Intent();
 				//
 
-				// Versuch Daten in nächste Activity zu bekommen ohne Dialogfragment
+				// Versuch Daten in nächste Activity zu bekommen ohne
+				// Dialogfragment
 				String ssid = "SSID:  " + scanresultate.get(position).SSID;// +
 																			// "\n"
 				// + scanresultate.get(position).BSSID;
@@ -174,7 +175,6 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onStop() {
-		// wifimanager.enableNetwork(netId, true);
 		enableAllNetworks();
 		super.onStop();
 	}
@@ -183,9 +183,8 @@ public class MainActivity extends ActionBarActivity {
 	protected void onRestart() {
 		if (!wifimanager.isWifiEnabled())
 			wifimanager.setWifiEnabled(true);
-
 		disableAllNetworks();
-		// wifimanager.disableNetwork(netId);
+
 		super.onRestart();
 	}
 
