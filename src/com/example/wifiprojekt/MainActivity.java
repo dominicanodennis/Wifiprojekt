@@ -75,21 +75,21 @@ public class MainActivity extends ActionBarActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				RssiRechner rssi2 = new RssiRechner();
-				// Dialog action = new Dialog(MainActivity.this,
-				// ("Wifiname:       " + scanresultate.get(position).SSID)
-				// .toString()
-				// + " \n"
-				// + "Netzstärke:    "
-				// + rssi2.rechneRSSIinProzent(scanresultate
-				// .get(position).level)
-				// + " %"
-				// + " \n"
-				// + "Macadresse:  "
-				// + scanresultate.get(position).BSSID
+				 Dialog action = new Dialog(MainActivity.this,
+				 ("Wifiname:       " + scanresultate.get(position).SSID)
+				 .toString()
+				 + " \n"
+				 + "Netzstärke:    "
+				 + rssi2.rechneRSSIinProzent(scanresultate
+				 .get(position).level)
+				 + " %"
+				 + " \n"
+				 + "Macadresse:  "
+				 + scanresultate.get(position).BSSID);
 				// + "           \n"
 				// + wifimanager.getConfiguredNetworks());
-				//
-				// action.showDialog();
+				
+				 action.showDialog();
 				//
 				//
 				// Intent intent = new Intent();
@@ -100,10 +100,10 @@ public class MainActivity extends ActionBarActivity {
 				String ssid = "SSID:  " + scanresultate.get(position).SSID;// +
 																			// "\n"
 				// + scanresultate.get(position).BSSID;
-				Intent intent = new Intent(MainActivity.this,
-						TrackingActivity.class);
-				intent.putExtra("wifiname", ssid);
-				startActivity(intent);
+//				Intent intent = new Intent(MainActivity.this,
+//						TrackingActivity.class);
+//				intent.putExtra("wifiname", ssid);
+//				startActivity(intent);
 
 			}
 		});
