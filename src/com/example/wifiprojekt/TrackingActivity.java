@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.example.wifiprojekt.MainActivity.WifiReceiver;
+
 
 import android.support.v7.app.ActionBarActivity;
 import android.content.BroadcastReceiver;
@@ -34,8 +34,15 @@ public class TrackingActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracking);
+		
+		
 
 		wifimanager = (WifiManager) getSystemService(WIFI_SERVICE);
+		
+		
+		Helperclass helper1 = new Helperclass(); // disableAllNetworks();
+		helper1.disableAllNetworks(this.netId, this.wifimanager);
+		
 		Intent intent = getIntent();
 		empfangSSID = intent.getExtras().getString("wifiname");
 
@@ -43,13 +50,12 @@ public class TrackingActivity extends ActionBarActivity {
 		textfeld1.setText(empfangSSID);
 		textfeld2 = (TextView) findViewById(R.id.textView2);
 
-		Helperclass helper1 = new Helperclass(); // disableAllNetworks();
-		helper1.disableAllNetworks(this.netId, this.wifimanager);
+		
 
 		scanne();
 
-		Helperclass helper2 = new Helperclass();// disableAllNetworks();
-		helper2.disableAllNetworks(this.netId, this.wifimanager);
+	//	Helperclass helper2 = new Helperclass();// disableAllNetworks();
+	//	helper2.disableAllNetworks(this.netId, this.wifimanager);
 	}
 
 	public void restartActivity() {
