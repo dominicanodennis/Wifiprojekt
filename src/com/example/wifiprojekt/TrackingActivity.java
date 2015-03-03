@@ -43,9 +43,23 @@ public class TrackingActivity extends ActionBarActivity {
 		textfeld1.setText(empfangSSID);
 		textfeld2 = (TextView) findViewById(R.id.textView2);
 
-		disableAllNetworks();
+		Helperclass helper1 = new Helperclass(); // disableAllNetworks();
+		helper1.disableAllNetworks(this.netId, this.wifimanager);
+
 		scanne();
-		disableAllNetworks();
+
+		Helperclass helper2 = new Helperclass();// disableAllNetworks();
+		helper2.disableAllNetworks(this.netId, this.wifimanager);
+	}
+
+	public void restartActivity() {
+		finish();
+
+		startActivity(getIntent());
+		Helperclass helper3 = new Helperclass();
+		helper3.disableAllNetworks(this.netId, this.wifimanager);
+		// disableAllNetworks();
+
 	}
 
 	public void disableAllNetworks() {
@@ -78,11 +92,12 @@ public class TrackingActivity extends ActionBarActivity {
 
 	@Override
 	public void onBackPressed() {
-
+		Helperclass helper4 = new Helperclass();
+		helper4.disableAllNetworks(this.netId, this.wifimanager);
+		// disableAllNetworks();
+		finish();
 		Intent intent = new Intent(this, MainActivity.class);
-				
 		startActivity(intent);
-
 		super.onBackPressed();
 	}
 
@@ -93,7 +108,10 @@ public class TrackingActivity extends ActionBarActivity {
 
 	@Override
 	protected void onStop() {
-		enableAllNetworks();
+		finish();
+		Helperclass helper5 = new Helperclass();
+		helper5.enableAllNetworks(this.netId, this.wifimanager);
+		//enableAllNetworks();
 		super.onStop();
 	}
 
@@ -101,9 +119,13 @@ public class TrackingActivity extends ActionBarActivity {
 	protected void onRestart() {
 		if (!wifimanager.isWifiEnabled()) {
 			wifimanager.setWifiEnabled(true);
-			disableAllNetworks();
+			Helperclass helper6 = new Helperclass();
+			helper6.disableAllNetworks(this.netId, this.wifimanager);
+			// disableAllNetworks();
 		} else {
-			disableAllNetworks();
+			Helperclass helper7 = new Helperclass();
+			helper7.disableAllNetworks(this.netId, this.wifimanager);
+			//disableAllNetworks();
 		}
 
 		super.onRestart();
@@ -164,6 +186,7 @@ public class TrackingActivity extends ActionBarActivity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			restartActivity();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

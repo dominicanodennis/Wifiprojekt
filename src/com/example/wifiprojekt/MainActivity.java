@@ -18,6 +18,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -63,11 +65,14 @@ public class MainActivity extends ActionBarActivity {
 
 		} else {
 
-			disableAllNetworks();
+			Helperclass helper1 = new Helperclass();
+			helper1.disableAllNetworks(this.netId, this.wifimanager);// disableAllNetworks();
 
 		}
 
-		disableAllNetworks();
+		Helperclass helper2 = new Helperclass();
+		helper2.disableAllNetworks(this.netId, this.wifimanager);
+		// disableAllNetworks();
 		scanne();
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,21 +80,21 @@ public class MainActivity extends ActionBarActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				RssiRechner rssi2 = new RssiRechner();
-//				 Dialog action = new Dialog(MainActivity.this,
-//				 ("Wifiname:       " + scanresultate.get(position).SSID)
-//				 .toString()
-//				 + " \n"
-//				 + "Netzstärke:    "
-//				 + rssi2.rechneRSSIinProzent(scanresultate
-//				 .get(position).level)
-//				 + " %"
-//				 + " \n"
-//				 + "Macadresse:  "
-//				 + scanresultate.get(position).BSSID);
-//				// + "           \n"
-//				// + wifimanager.getConfiguredNetworks());
-//				
-//				 action.showDialog();
+				// Dialog action = new Dialog(MainActivity.this,
+				// ("Wifiname:       " + scanresultate.get(position).SSID)
+				// .toString()
+				// + " \n"
+				// + "Netzstärke:    "
+				// + rssi2.rechneRSSIinProzent(scanresultate
+				// .get(position).level)
+				// + " %"
+				// + " \n"
+				// + "Macadresse:  "
+				// + scanresultate.get(position).BSSID);
+				// // + "           \n"
+				// // + wifimanager.getConfiguredNetworks());
+				//
+				// action.showDialog();
 				//
 				//
 				// Intent intent = new Intent();
@@ -100,6 +105,7 @@ public class MainActivity extends ActionBarActivity {
 				String ssid = "SSID:  " + scanresultate.get(position).SSID;// +
 																			// "\n"
 				// + scanresultate.get(position).BSSID;
+				finish();
 				Intent intent = new Intent(MainActivity.this,
 						TrackingActivity.class);
 				intent.putExtra("wifiname", ssid);
@@ -145,9 +151,24 @@ public class MainActivity extends ActionBarActivity {
 
 	}
 
+	// public void baueFragment(){
+	// FragmentManager fragmentManager = getFragmentManager();
+	// FragmentTransaction fragmentTransaction = fragmentManager
+	// .beginTransaction();
+	// MeinFragment fragment = new MeinFragment();
+	// fragmentTransaction.replace(R.id.fragment_platz,
+	// MeinFragment.newInstance());
+	// fragmentTransaction.commit();
+	//
+	// }
+
 	public void restartActivity() {
 		finish();
+
 		startActivity(getIntent());
+		Helperclass helper3 = new Helperclass();
+		helper3.disableAllNetworks(this.netId, this.wifimanager);
+		// disableAllNetworks();
 
 	}
 
@@ -161,6 +182,7 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			// baueFragment();
 			restartActivity();
 			return true;
 		}
@@ -175,6 +197,8 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onStop() {
+		Helperclass helper4 = new Helperclass();
+		helper4.enableAllNetworks(this.netId, this.wifimanager);
 		enableAllNetworks();
 		super.onStop();
 	}
@@ -183,7 +207,9 @@ public class MainActivity extends ActionBarActivity {
 	protected void onRestart() {
 		if (!wifimanager.isWifiEnabled())
 			wifimanager.setWifiEnabled(true);
-		disableAllNetworks();
+		Helperclass helper5 = new Helperclass();
+		helper5.disableAllNetworks(this.netId, this.wifimanager);
+		// disableAllNetworks();
 
 		super.onRestart();
 	}

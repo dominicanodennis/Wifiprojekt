@@ -8,17 +8,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.wifiprojekt.MainActivity" >
 
-   <ListView
-      android:id="@+id/listView1"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentTop="true"
-      android:layout_centerHorizontal="true"
-      android:drawSelectorOnTop="false"
-      android:background="#D66113"
-      android:textColor="#000000"
-      android:listSelector="#0A730A" >
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#D66113"
+        android:drawSelectorOnTop="false"
+        android:listSelector="#0A730A"
+        android:textColor="#000000" >
+    </ListView>
 
-   </ListView>
+<!--     <fragment -->
+<!--         android:id="@+id/fragment_platz" -->
+<!--         android:layout_width="0dp" -->
+<!--         android:layout_height="match_parent" -->
+<!--         android:layout_weight="2" /> -->
 
 </RelativeLayout>
