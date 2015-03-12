@@ -6,5 +6,6 @@
     <string name="action_settings">Refresh</string>
     <string name="update_info">Scanning</string>
     <string name="title_activity_tracking">TrackingActivity</string>
+    <string name="ssid_ssid">RSSI :</string>
 
 </resources>

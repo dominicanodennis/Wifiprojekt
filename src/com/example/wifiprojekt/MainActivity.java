@@ -1,36 +1,25 @@
 package com.example.wifiprojekt;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.internal.widget.AdapterViewCompat.OnItemLongClickListener;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import android.annotation.SuppressLint;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
-import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -45,7 +34,8 @@ public class MainActivity extends ActionBarActivity {
 	Toast toast1, toast2, toast3, toast4;
 	List<ScanResult> scanresultate;
 	int netId;
-	String bssid;
+	String bssid, ssid;
+	ScanResult scanresult;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,13 +92,18 @@ public class MainActivity extends ActionBarActivity {
 
 				// Versuch Daten in nächste Activity zu bekommen ohne
 				// Dialogfragment
-				String ssid = "SSID:  " + scanresultate.get(position).SSID;// +
-																			// "\n"
+				bssid = scanresultate.get(position).BSSID;//
+				ssid = scanresultate.get(position).SSID;
+				// +
+				// "\n"
+				// scanresult = scanresultate.get(position);
+
 				// + scanresultate.get(position).BSSID;
 				finish();
 				Intent intent = new Intent(MainActivity.this,
 						TrackingActivity.class);
-				intent.putExtra("wifiname", ssid);
+				intent.putExtra("wifiname", bssid);
+
 				startActivity(intent);
 
 			}
@@ -247,10 +242,6 @@ public class MainActivity extends ActionBarActivity {
 			listview.setAdapter(new ArrayAdapter<String>(
 					getApplicationContext(),
 					android.R.layout.simple_list_item_1, wifiliste2));
-
-			// adapter = new ListAdapter(MainActivity.this, wifiliste2);
-			// listview.setAdapter(adapter);
-			// adapter.notifyDataSetChanged();
 
 			if (listview != null) {
 				toast3 = Toast.makeText(getApplicationContext(),

@@ -348,12 +348,14 @@ int id action_menu_presenter 0x7f0c0006
 int id action_mode_bar 0x7f0c002e
 int id action_mode_bar_stub 0x7f0c002d
 int id action_mode_close_button 0x7f0c0020
-int id action_settings 0x7f0c0045
+int id action_settings 0x7f0c0047
 int id activity_chooser_view_content 0x7f0c0021
 int id always 0x7f0c0014
 int id animatedGifImageView 0x7f0c0040
+int id animatedGifImageView1 0x7f0c0043
 int id beginning 0x7f0c001b
 int id button1 0x7f0c0041
+int id button2 0x7f0c0044
 int id checkbox 0x7f0c0029
 int id collapseActionView 0x7f0c0015
 int id decor_content_parent 0x7f0c002f
@@ -398,9 +400,9 @@ int id split_action_bar 0x7f0c0004
 int id submit_area 0x7f0c003c
 int id tabMode 0x7f0c000c
 int id textView1 0x7f0c003f
-int id textView2 0x7f0c0043
+int id textView2 0x7f0c0045
 int id title 0x7f0c0027
-int id txt_wifi_provider 0x7f0c0044
+int id txt_wifi_provider 0x7f0c0046
 int id up 0x7f0c0001
 int id useLogo 0x7f0c0013
 int id withText 0x7f0c0018
@@ -441,6 +443,11 @@ int menu start 0x7f0d0001
 int menu tracking 0x7f0d0002
 int raw animated_gif 0x7f050000
 int raw animated_gif_big 0x7f050001
+int raw geiger_counter 0x7f050002
+int raw wifi_antenne 0x7f050003
+int raw wifi_blue 0x7f050004
+int raw wifiblau 0x7f050005
+int raw wifiblauklein 0x7f050006
 int string abc_action_bar_home_description 0x7f070004
 int string abc_action_bar_home_description_format 0x7f070008
 int string abc_action_bar_home_subtitle_description_format 0x7f070009
@@ -460,6 +467,7 @@ int string abc_toolbar_collapse_description 0x7f070007
 int string action_settings 0x7f070002
 int string app_name 0x7f070000
 int string hello_world 0x7f070001
+int string ssid_ssid 0x7f070015
 int string title_activity_tracking 0x7f070014
 int string update_info 0x7f070013
 int style AppBaseTheme 0x7f080000

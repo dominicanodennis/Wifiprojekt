@@ -1,12 +1,10 @@
 package com.example.wifiprojekt;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import com.abhi.gif.lib.AnimatedGifImageView;
+import com.abhi.gif.lib.AnimatedGifImageView.TYPE;
 
-
-import android.support.v7.app.ActionBarActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,47 +13,54 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
-public class TrackingActivity extends ActionBarActivity {
+public class TrackingActivity extends FragmentActivity {
 
+	private AnimatedGifImageView animatedGifImageView;
 	String empfangSSID;
 	TextView textfeld1, textfeld2;
 	WifiManager wifimanager;
 	WifiReceiver2 wifiReceiver;
 	String wifiliste[];
 	List<ScanResult> scanresultate;
-	int netId, wifilevel;
-	String bssid;
+	int netId;
+	int wifilevel = 0;
+	String bssid, ssid;
+	ScanResult scanresult;
+	MainActivity main;
+	Button button1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracking);
-		
-		
+
+		animatedGifImageView = ((AnimatedGifImageView) findViewById(R.id.animatedGifImageView1));
+		animatedGifImageView.setAnimatedGif(R.raw.geiger_counter,
+				TYPE.FIT_CENTER);
 
 		wifimanager = (WifiManager) getSystemService(WIFI_SERVICE);
-		
-		
+
 		Helperclass helper1 = new Helperclass(); // disableAllNetworks();
 		helper1.disableAllNetworks(this.netId, this.wifimanager);
-		
+
 		Intent intent = getIntent();
-		empfangSSID = intent.getExtras().getString("wifiname");
+		bssid = intent.getExtras().getString("wifiname");
 
 		textfeld1 = (TextView) findViewById(R.id.textView1);
-		textfeld1.setText(empfangSSID);
-		textfeld2 = (TextView) findViewById(R.id.textView2);
 
-		
+		textfeld2 = (TextView) findViewById(R.id.textView2);
 
 		scanne();
 
-	//	Helperclass helper2 = new Helperclass();// disableAllNetworks();
-	//	helper2.disableAllNetworks(this.netId, this.wifimanager);
+		// Helperclass helper2 = new Helperclass();// disableAllNetworks();
+		// helper2.disableAllNetworks(this.netId, this.wifimanager);
 	}
 
 	public void restartActivity() {
@@ -117,7 +122,7 @@ public class TrackingActivity extends ActionBarActivity {
 		finish();
 		Helperclass helper5 = new Helperclass();
 		helper5.enableAllNetworks(this.netId, this.wifimanager);
-		//enableAllNetworks();
+		enableAllNetworks();
 		super.onStop();
 	}
 
@@ -131,7 +136,7 @@ public class TrackingActivity extends ActionBarActivity {
 		} else {
 			Helperclass helper7 = new Helperclass();
 			helper7.disableAllNetworks(this.netId, this.wifimanager);
-			//disableAllNetworks();
+			// disableAllNetworks();
 		}
 
 		super.onRestart();
@@ -145,33 +150,42 @@ public class TrackingActivity extends ActionBarActivity {
 
 	class WifiReceiver2 extends BroadcastReceiver {
 		public void onReceive(Context c, Intent intent) {
+			ScanResult result2 = null;
 			scanresultate = wifimanager.getScanResults();
-			wifiliste = new String[scanresultate.size()];
 
-			// Collections.sort(scanresultate, new Comparator<ScanResult>() {
-			//
-			// @Override
-			// public int compare(ScanResult lhs, ScanResult rhs) {
-			// return (lhs.level > rhs.level ? -1
-			// : (lhs.level == rhs.level ? 0 : 1));
-			//
-			// }
-			// });
 			RssiRechner rssi = new RssiRechner();
 
-			for (int i = 0; i < scanresultate.size(); i++) {
-				wifiliste[i] = ((scanresultate.get(i)).SSID.toString() + "  "
-						+ rssi.rechneRSSIinProzent(scanresultate.get(i).level) + "%");
-				//
-				// if (scanresultate.get(i) != null
-				// && sca
+			for (ScanResult result : scanresultate) {
 
-				// wifilevel =
-				// rssi.rechneRSSIinProzent(scanresultate.get(i).level);
-				// textfeld2.setText(wifilevel);
+				if (result.BSSID.equals(bssid)) {
 
-				textfeld2.setText(wifiliste[0].toString());
+					result2 = result;
+					break;
+				}
 
+			}
+
+			wifilevel = WifiManager.calculateSignalLevel(result2.level,100);
+			ssid = result2.SSID;
+
+			// funzt nicht, stürzt ab wenn network nicht mehr sichtbar bzw. das
+			// ausgewählte
+			// netzwerk ist ausser Reichweite
+
+			// anderes Problem: wenn man in eine Area kommt wo ein bekanntes
+			// bzw.
+			// vom Smartphone gespeichertes Wlannetz kommt,
+			// connected er das Netz und somit arbeitet die app nicht mehr
+			// richtig
+			// Tip: vielleicht muss man in onResume() nochmal disableNetwork()
+			// aufrufen
+			// um das Wkannetz zu disablen
+			if (!(wifilevel == 0)) {
+				textfeld2.setText("Signallevel: "
+						+ wifilevel + " %");
+				textfeld1.setText("Tracke: " + ssid);
+			} else {
+				textfeld2.setText("ausser Reichweite");
 			}
 
 		}
