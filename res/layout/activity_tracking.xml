@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/button2"
         android:layout_alignLeft="@+id/animatedGifImageView1"
-        android:text=" zur Wifiliste" />
+        android:text="@string/button_wifiliste" />
 
     <TextView
         android:id="@+id/textView2"
@@ -56,6 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text=" Tracking beenden" />
+        android:text="@string/title_activity_tracking" />
 
 </RelativeLayout>

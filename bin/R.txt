@@ -450,6 +450,11 @@ int raw gruen 0x7f050005
 int raw lila 0x7f050006
 int raw nowifi 0x7f050007
 int raw rot 0x7f050008
+int raw song_five 0x7f050009
+int raw song_four 0x7f05000a
+int raw song_one 0x7f05000b
+int raw song_three 0x7f05000c
+int raw song_two 0x7f05000d
 int string abc_action_bar_home_description 0x7f070004
 int string abc_action_bar_home_description_format 0x7f070008
 int string abc_action_bar_home_subtitle_description_format 0x7f070009
@@ -468,6 +473,8 @@ int string abc_shareactionprovider_share_with_application 0x7f070011
 int string abc_toolbar_collapse_description 0x7f070007
 int string action_settings 0x7f070002
 int string app_name 0x7f070000
+int string button_tracking 0x7f070017
+int string button_wifiliste 0x7f070016
 int string hello_world 0x7f070001
 int string ssid_ssid 0x7f070015
 int string title_activity_tracking 0x7f070014

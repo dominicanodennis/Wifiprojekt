@@ -189,7 +189,7 @@ public class TrackingActivity extends FragmentActivity {
 //			} else {
 //				textfeld2.setText("ausser Reichweite");
 //			}
-			Animation animation = new Animation(rssiLevel);
+			Animation animation = new Animation(rssiLevel, getApplicationContext());
 			animation.setAnimation(animatedGifImageView);
 
 		}
