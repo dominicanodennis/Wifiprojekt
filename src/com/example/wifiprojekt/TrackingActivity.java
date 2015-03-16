@@ -30,22 +30,24 @@ public class TrackingActivity extends FragmentActivity {
 	String wifiliste[];
 	List<ScanResult> scanresultate;
 	int netId;
+	int rssiLevel;
 	int wifilevel = 0;
 	String bssid, ssid;
 	ScanResult scanresult;
 	MainActivity main;
 	Button button1;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracking);
 
-		animatedGifImageView = ((AnimatedGifImageView) findViewById(R.id.animatedGifImageView1));
-		animatedGifImageView.setAnimatedGif(R.raw.geiger_counter,
-				TYPE.FIT_CENTER);
-
 		wifimanager = (WifiManager) getSystemService(WIFI_SERVICE);
+
+		animatedGifImageView = ((AnimatedGifImageView) findViewById(R.id.animatedGifImageView1));
+
+		animatedGifImageView.setAnimatedGif(R.raw.geiger_zaehler, TYPE.FIT_CENTER);
 
 		Helperclass helper1 = new Helperclass(); // disableAllNetworks();
 		helper1.disableAllNetworks(this.netId, this.wifimanager);
@@ -165,7 +167,8 @@ public class TrackingActivity extends FragmentActivity {
 
 			}
 
-			wifilevel = WifiManager.calculateSignalLevel(result2.level,100);
+			rssiLevel = result2.level;
+			wifilevel = WifiManager.calculateSignalLevel(result2.level, 100);
 			ssid = result2.SSID;
 
 			// funzt nicht, stürzt ab wenn network nicht mehr sichtbar bzw. das
@@ -180,13 +183,14 @@ public class TrackingActivity extends FragmentActivity {
 			// Tip: vielleicht muss man in onResume() nochmal disableNetwork()
 			// aufrufen
 			// um das Wkannetz zu disablen
-			if (!(wifilevel == 0)) {
-				textfeld2.setText("Signallevel: "
-						+ wifilevel + " %");
+//			if (!(wifilevel == 0)) {
+			textfeld2.setText("Signallevel: " + wifilevel + " %");
 				textfeld1.setText("Tracke: " + ssid);
-			} else {
-				textfeld2.setText("ausser Reichweite");
-			}
+//			} else {
+//				textfeld2.setText("ausser Reichweite");
+//			}
+			Animation animation = new Animation(rssiLevel);
+			animation.setAnimation(animatedGifImageView);
 
 		}
 
