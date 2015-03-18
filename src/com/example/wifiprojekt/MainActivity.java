@@ -204,6 +204,7 @@ public class MainActivity extends ActionBarActivity {
 			wifimanager.setWifiEnabled(true);
 		Helperclass helper5 = new Helperclass();
 		helper5.disableAllNetworks(this.netId, this.wifimanager);
+		
 		// disableAllNetworks();
 
 		super.onRestart();
@@ -232,6 +233,7 @@ public class MainActivity extends ActionBarActivity {
 			RssiRechner rssi = new RssiRechner();
 
 			for (int i = 0; i < scanresultate.size(); i++) {
+
 				wifiliste[i] = ((scanresultate.get(i)).SSID.toString() + "  "
 						+ rssi.rechneRSSIinProzent(scanresultate.get(i).level) + "%");
 

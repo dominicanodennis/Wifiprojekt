@@ -30,7 +30,7 @@ public class Animation {
 			switchvalue = 3;
 		} else if (rssi <= -71 && rssi >= -80) {
 			switchvalue = 4;
-		} else if (rssi <= -81 && rssi >= 90) {
+		} else if (rssi <= -81 && rssi >= -90) {
 			switchvalue = 5;
 		} else if (rssi <= -91 && rssi >= -100) {
 			switchvalue = 6;
@@ -63,13 +63,13 @@ public class Animation {
 			mp.start();
 			break;
 		case 6:
-			view.setAnimatedGif(R.raw.geiger_zaehler, TYPE.FIT_CENTER);
+			view.setAnimatedGif(R.raw.rot, TYPE.FIT_CENTER);
 			mp = MediaPlayer.create(appcontext, R.raw.song_one);
 			mp.start();
 			break;
 
 		default:
-			animatedGifImageView.setAnimatedGif(R.raw.nowifi, TYPE.FIT_CENTER);
+			animatedGifImageView.setAnimatedGif(R.raw.rot, TYPE.FIT_CENTER);
 
 		}
 		return view;

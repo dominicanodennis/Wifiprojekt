@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -35,8 +36,7 @@ public class TrackingActivity extends FragmentActivity {
 	String bssid, ssid;
 	ScanResult scanresult;
 	MainActivity main;
-	Button button1;
-	
+	Button button1, button2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +45,12 @@ public class TrackingActivity extends FragmentActivity {
 
 		wifimanager = (WifiManager) getSystemService(WIFI_SERVICE);
 
+		button1 = (Button) findViewById(R.id.button1);
+		button2 = (Button) findViewById(R.id.button2);
+
 		animatedGifImageView = ((AnimatedGifImageView) findViewById(R.id.animatedGifImageView1));
 
-		animatedGifImageView.setAnimatedGif(R.raw.geiger_zaehler, TYPE.FIT_CENTER);
+		animatedGifImageView.setAnimatedGif(R.raw.gruen, TYPE.FIT_CENTER);
 
 		Helperclass helper1 = new Helperclass(); // disableAllNetworks();
 		helper1.disableAllNetworks(this.netId, this.wifimanager);
@@ -65,13 +68,24 @@ public class TrackingActivity extends FragmentActivity {
 		// helper2.disableAllNetworks(this.netId, this.wifimanager);
 	}
 
-	public void restartActivity() {
+	public void restartActivity(View view) {
 		finish();
 
 		startActivity(getIntent());
 		Helperclass helper3 = new Helperclass();
 		helper3.disableAllNetworks(this.netId, this.wifimanager);
 		// disableAllNetworks();
+
+	}
+
+	public void beendeApp(View view) {
+		System.exit(1);
+	}
+
+	public void backToWifiList(View view) {
+		finish();
+		Intent intent = new Intent(TrackingActivity.this, MainActivity.class);
+		startActivity(intent);
 
 	}
 
@@ -183,13 +197,14 @@ public class TrackingActivity extends FragmentActivity {
 			// Tip: vielleicht muss man in onResume() nochmal disableNetwork()
 			// aufrufen
 			// um das Wkannetz zu disablen
-//			if (!(wifilevel == 0)) {
+			// if (!(wifilevel == 0)) {
 			textfeld2.setText("Signallevel: " + rssiLevel + " %");
-				textfeld1.setText("Tracke: " + ssid);
-//			} else {
-//				textfeld2.setText("ausser Reichweite");
-//			}
-			Animation animation = new Animation(rssiLevel, getApplicationContext());
+			textfeld1.setText("Tracke: " + ssid);
+			// } else {
+			// textfeld2.setText("ausser Reichweite");
+			// }
+			Animation animation = new Animation(rssiLevel,
+					getApplicationContext());
 			animation.setAnimation(animatedGifImageView);
 
 		}
@@ -210,7 +225,7 @@ public class TrackingActivity extends FragmentActivity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			restartActivity();
+			// restartActivity();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
