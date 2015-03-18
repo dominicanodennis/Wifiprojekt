@@ -184,7 +184,7 @@ public class TrackingActivity extends FragmentActivity {
 			// aufrufen
 			// um das Wkannetz zu disablen
 //			if (!(wifilevel == 0)) {
-			textfeld2.setText("Signallevel: " + wifilevel + " %");
+			textfeld2.setText("Signallevel: " + rssiLevel + " %");
 				textfeld1.setText("Tracke: " + ssid);
 //			} else {
 //				textfeld2.setText("ausser Reichweite");
