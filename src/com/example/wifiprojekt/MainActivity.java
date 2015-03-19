@@ -56,54 +56,30 @@ public class MainActivity extends ActionBarActivity {
 		} else {
 
 			Helperclass helper1 = new Helperclass();
-			helper1.disableAllNetworks(this.netId, this.wifimanager);// disableAllNetworks();
+			helper1.disableAllNetworks(this.netId, this.wifimanager);
 
 		}
 
 		Helperclass helper2 = new Helperclass();
 		helper2.disableAllNetworks(this.netId, this.wifimanager);
-		// disableAllNetworks();
+
 		scanne();
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				RssiRechner rssi2 = new RssiRechner();
-				// Dialog action = new Dialog(MainActivity.this,
-				// ("Wifiname:       " + scanresultate.get(position).SSID)
-				// .toString()
-				// + " \n"
-				// + "Netzstärke:    "
-				// + rssi2.rechneRSSIinProzent(scanresultate
-				// .get(position).level)
-				// + " %"
-				// + " \n"
-				// + "Macadresse:  "
-				// + scanresultate.get(position).BSSID);
-				// // + "           \n"
-				// // + wifimanager.getConfiguredNetworks());
-				//
-				// action.showDialog();
-				//
-				//
-				// Intent intent = new Intent();
-				//
+				// RssiRechner rssi2 = new RssiRechner();
 
-				// Versuch Daten in nächste Activity zu bekommen ohne
-				// Dialogfragment
-				bssid = scanresultate.get(position).BSSID;//
+				bssid = scanresultate.get(position).BSSID;
 				ssid = scanresultate.get(position).SSID;
-				// +
-				// "\n"
-				// scanresult = scanresultate.get(position);
 
-				// + scanresultate.get(position).BSSID;
+				// eventuelle if-abfrage ob bssid !null ist um zu verhindern dass 
+				// TrackingActivity startet ohne bssid
 				finish();
 				Intent intent = new Intent(MainActivity.this,
 						TrackingActivity.class);
 				intent.putExtra("wifiname", bssid);
-
 				startActivity(intent);
 
 			}
@@ -146,24 +122,11 @@ public class MainActivity extends ActionBarActivity {
 
 	}
 
-	// public void baueFragment(){
-	// FragmentManager fragmentManager = getFragmentManager();
-	// FragmentTransaction fragmentTransaction = fragmentManager
-	// .beginTransaction();
-	// MeinFragment fragment = new MeinFragment();
-	// fragmentTransaction.replace(R.id.fragment_platz,
-	// MeinFragment.newInstance());
-	// fragmentTransaction.commit();
-	//
-	// }
-
 	public void restartActivity() {
 		finish();
-
 		startActivity(getIntent());
 		Helperclass helper3 = new Helperclass();
 		helper3.disableAllNetworks(this.netId, this.wifimanager);
-		// disableAllNetworks();
 
 	}
 
@@ -177,7 +140,6 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			// baueFragment();
 			restartActivity();
 			return true;
 		}
@@ -204,9 +166,6 @@ public class MainActivity extends ActionBarActivity {
 			wifimanager.setWifiEnabled(true);
 		Helperclass helper5 = new Helperclass();
 		helper5.disableAllNetworks(this.netId, this.wifimanager);
-		
-		// disableAllNetworks();
-
 		super.onRestart();
 	}
 
