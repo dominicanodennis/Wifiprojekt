@@ -192,9 +192,9 @@ public class TrackingActivity extends FragmentActivity {
 			textfeld2.setText("Signallevel: " + rssiLevel + " %");
 			textfeld1.setText("Tracke: " + ssid);
 
-			Animation animation = new Animation(rssiLevel,
+			AnimationWithSound animation = new AnimationWithSound(rssiLevel,
 					getApplicationContext());
-			animation.setAnimation(animatedGifImageView);
+			animation.setAnimationAndSound(animatedGifImageView);
 
 		}
 
