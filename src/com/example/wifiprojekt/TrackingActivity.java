@@ -14,9 +14,6 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -47,34 +44,27 @@ public class TrackingActivity extends FragmentActivity {
 
 		button1 = (Button) findViewById(R.id.button1);
 		button2 = (Button) findViewById(R.id.button2);
+		textfeld1 = (TextView) findViewById(R.id.textView1);
+		textfeld2 = (TextView) findViewById(R.id.textView2);
 
 		animatedGifImageView = ((AnimatedGifImageView) findViewById(R.id.animatedGifImageView1));
-
 		animatedGifImageView.setAnimatedGif(R.raw.gruen, TYPE.FIT_CENTER);
 
-		Helperclass helper1 = new Helperclass(); // disableAllNetworks();
+		Helperclass helper1 = new Helperclass();
 		helper1.disableAllNetworks(this.netId, this.wifimanager);
 
 		Intent intent = getIntent();
 		bssid = intent.getExtras().getString("wifiname");
 
-		textfeld1 = (TextView) findViewById(R.id.textView1);
-
-		textfeld2 = (TextView) findViewById(R.id.textView2);
-
 		scanne();
 
-		// Helperclass helper2 = new Helperclass();// disableAllNetworks();
-		// helper2.disableAllNetworks(this.netId, this.wifimanager);
 	}
 
 	public void restartActivity(View view) {
 		finish();
-
 		startActivity(getIntent());
 		Helperclass helper3 = new Helperclass();
 		helper3.disableAllNetworks(this.netId, this.wifimanager);
-		// disableAllNetworks();
 
 	}
 
@@ -121,7 +111,6 @@ public class TrackingActivity extends FragmentActivity {
 	public void onBackPressed() {
 		Helperclass helper4 = new Helperclass();
 		helper4.disableAllNetworks(this.netId, this.wifimanager);
-		// disableAllNetworks();
 		finish();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
@@ -148,11 +137,11 @@ public class TrackingActivity extends FragmentActivity {
 			wifimanager.setWifiEnabled(true);
 			Helperclass helper6 = new Helperclass();
 			helper6.disableAllNetworks(this.netId, this.wifimanager);
-			// disableAllNetworks();
+
 		} else {
 			Helperclass helper7 = new Helperclass();
 			helper7.disableAllNetworks(this.netId, this.wifimanager);
-			// disableAllNetworks();
+
 		}
 
 		super.onRestart();
@@ -169,8 +158,11 @@ public class TrackingActivity extends FragmentActivity {
 			ScanResult result2 = null;
 			scanresultate = wifimanager.getScanResults();
 
-			RssiRechner rssi = new RssiRechner();
+			// RssiRechner rssi = new RssiRechner();
+			// eventuell if-Abfrage um zu prüfen übergebende bssid noch vorhanden ist
+			// wenn nicht, abfangen
 
+			
 			for (ScanResult result : scanresultate) {
 
 				if (result.BSSID.equals(bssid)) {
@@ -197,38 +189,15 @@ public class TrackingActivity extends FragmentActivity {
 			// Tip: vielleicht muss man in onResume() nochmal disableNetwork()
 			// aufrufen
 			// um das Wkannetz zu disablen
-			// if (!(wifilevel == 0)) {
 			textfeld2.setText("Signallevel: " + rssiLevel + " %");
 			textfeld1.setText("Tracke: " + ssid);
-			// } else {
-			// textfeld2.setText("ausser Reichweite");
-			// }
-			Animation animation = new Animation(rssiLevel,
+
+			AnimationWithSound animation = new AnimationWithSound(rssiLevel,
 					getApplicationContext());
-			animation.setAnimation(animatedGifImageView);
+			animation.setAnimationAndSound(animatedGifImageView);
 
 		}
 
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.tracking, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			// restartActivity();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 }

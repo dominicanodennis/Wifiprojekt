@@ -6,7 +6,7 @@ import android.media.MediaPlayer;
 import com.abhi.gif.lib.AnimatedGifImageView;
 import com.abhi.gif.lib.AnimatedGifImageView.TYPE;
 
-public class Animation {
+public class AnimationWithSound {
 
 	int rssi;
 	private AnimatedGifImageView animatedGifImageView;
@@ -14,13 +14,13 @@ public class Animation {
 	Context appcontext;
 	MediaPlayer mp;
 
-	public Animation(int rssi, Context appcontext) {
+	public AnimationWithSound(int rssi, Context appcontext) {
 		super();
 		this.rssi = rssi;
 		this.appcontext = appcontext;
 	}
 
-	public AnimatedGifImageView setAnimation(AnimatedGifImageView view) {
+	public AnimatedGifImageView setAnimationAndSound(AnimatedGifImageView view) {
 
 		if (rssi <= 0 && rssi >= -50) {
 			switchvalue = 1;
