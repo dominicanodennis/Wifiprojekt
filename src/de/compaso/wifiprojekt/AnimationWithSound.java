@@ -1,10 +1,11 @@
-package com.example.wifiprojekt;
+package de.compaso.wifiprojekt;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 
 import com.abhi.gif.lib.AnimatedGifImageView;
 import com.abhi.gif.lib.AnimatedGifImageView.TYPE;
+import com.example.wifiprojekt.R;
 
 public class AnimationWithSound {
 
@@ -40,37 +41,35 @@ public class AnimationWithSound {
 		case 1:
 			view.setAnimatedGif(R.raw.gruen, TYPE.FIT_CENTER);
 			mp = MediaPlayer.create(appcontext, R.raw.song_one);
-			mp.start();
 			break;
 		case 2:
 			view.setAnimatedGif(R.raw.gelb, TYPE.FIT_CENTER);
 			mp = MediaPlayer.create(appcontext, R.raw.song_two);
-			mp.start();
 			break;
 		case 3:
 			view.setAnimatedGif(R.raw.lila, TYPE.FIT_CENTER);
 			mp = MediaPlayer.create(appcontext, R.raw.song_three);
-			mp.start();
 			break;
 		case 4:
 			view.setAnimatedGif(R.raw.blau, TYPE.FIT_CENTER);
 			mp = MediaPlayer.create(appcontext, R.raw.song_four);
-			mp.start();
 			break;
 		case 5:
 			view.setAnimatedGif(R.raw.rot, TYPE.FIT_CENTER);
 			mp = MediaPlayer.create(appcontext, R.raw.song_five);
-			mp.start();
 			break;
 		case 6:
 			view.setAnimatedGif(R.raw.rot, TYPE.FIT_CENTER);
 			mp = MediaPlayer.create(appcontext, R.raw.song_one);
-			mp.start();
 			break;
 
 		default:
 			animatedGifImageView.setAnimatedGif(R.raw.rot, TYPE.FIT_CENTER);
-
+			// mp = Mediaplayer.create(appcontext, R.raw.song_one);
+		}
+		
+		if (mp!=null) {
+			mp.start();
 		}
 		return view;
 

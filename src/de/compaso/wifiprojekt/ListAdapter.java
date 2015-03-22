@@ -1,6 +1,8 @@
-package com.example.wifiprojekt;
+package de.compaso.wifiprojekt;
 
 import java.util.List;
+
+import com.example.wifiprojekt.R;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

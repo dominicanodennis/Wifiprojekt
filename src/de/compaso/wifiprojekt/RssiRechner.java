@@ -1,4 +1,4 @@
-package com.example.wifiprojekt;
+package de.compaso.wifiprojekt;
 
 public class RssiRechner {
 	

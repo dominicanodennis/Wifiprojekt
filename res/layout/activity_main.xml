@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.wifiprojekt.MainActivity" >
+    tools:context="de.compaso.wifiprojekt.MainActivity" >
 
     <ListView
         android:id="@+id/listView1"
@@ -19,11 +19,5 @@
         android:listSelector="#0A730A"
         android:textColor="#000000" >
     </ListView>
-
-<!--     <fragment -->
-<!--         android:id="@+id/fragment_platz" -->
-<!--         android:layout_width="0dp" -->
-<!--         android:layout_height="match_parent" -->
-<!--         android:layout_weight="2" /> -->
 
 </RelativeLayout>

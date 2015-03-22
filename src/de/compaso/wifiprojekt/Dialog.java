@@ -1,4 +1,4 @@
-package com.example.wifiprojekt;
+package de.compaso.wifiprojekt;
 
 import android.app.Activity;
 import android.app.AlertDialog;
