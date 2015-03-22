@@ -36,6 +36,7 @@ public class TrackingActivity extends FragmentActivity {
 	ScanResult scanresult;
 	MainActivity main;
 	Button button1, button2;
+	boolean back = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class TrackingActivity extends FragmentActivity {
 	public void backToWifiList(View view) {
 		finish();
 		Intent intent = new Intent(TrackingActivity.this, MainActivity.class);
+		back = true;
 		startActivity(intent);
 
 	}
@@ -120,6 +122,7 @@ public class TrackingActivity extends FragmentActivity {
 		finish();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
+		back = true;
 		super.onBackPressed();
 	}
 
@@ -130,10 +133,13 @@ public class TrackingActivity extends FragmentActivity {
 
 	@Override
 	protected void onStop() {
-//		finish();
-		Helperclass helper4 = new Helperclass();
-		helper4.enableAllNetworks(this.netId);
-		enableAllNetworks();
+		if (!back) {
+			Helperclass helper4 = new Helperclass();
+			helper4.enableAllNetworks(this.netId);
+			enableAllNetworks();
+		} else {
+			back = false;
+		}
 		super.onStop();
 	}
 
@@ -156,6 +162,19 @@ public class TrackingActivity extends FragmentActivity {
 	protected void onResume() {
 		registerReceiver(wifiReceiver, new IntentFilter(
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+		if (!wifimanager.isWifiEnabled()) {
+			wifimanager.setWifiEnabled(true);
+			Helperclass helper6 = new Helperclass();
+			helper6.disableAllNetworks(this.netId);
+			
+			disableAllNetworks();
+
+		} else {
+			Helperclass helper7 = new Helperclass();
+			helper7.disableAllNetworks(this.netId);
+			disableAllNetworks();
+
+		}
 		super.onResume();
 	}
 

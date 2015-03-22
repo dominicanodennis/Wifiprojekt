@@ -23,6 +23,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -82,6 +83,7 @@ public class MainActivity extends ActionBarActivity {
 		Helperclass helper2 = new Helperclass();
 		helper2.disableAllNetworks(this.netId);
 
+		
 		scanne();
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -112,7 +114,7 @@ public class MainActivity extends ActionBarActivity {
 
 		}
 	}
-/*
+
 	public void disableAllNetworks() {
 		List<WifiConfiguration> wificonfigliste = wifiManager
 				.getConfiguredNetworks();
@@ -132,7 +134,7 @@ public class MainActivity extends ActionBarActivity {
 			wifiManager.enableNetwork(this.netId, true);
 		}
 	}
-*/
+
 	public void scanne() {
 		wifiReceiver = new WifiReceiver();
 		registerReceiver(wifiReceiver, new IntentFilter(
@@ -175,21 +177,20 @@ public class MainActivity extends ActionBarActivity {
 		if (!forward) {
 			Helperclass helper4 = new Helperclass();
 			helper4.enableAllNetworks(this.netId);
-		//	enableAllNetworks();
+			enableAllNetworks();
 		} else {
 			forward = false;
 		}
-//		enableAllNetworks();
 		super.onStop();
 	}
 
 	@Override
-	protected void onRestart() {
+	protected void onStart() {
 		if (!wifiManager.isWifiEnabled())
 			wifiManager.setWifiEnabled(true);
 		Helperclass helper5 = new Helperclass();
 		helper5.disableAllNetworks(this.netId);
-		super.onRestart();
+		super.onStart();
 	}
 
 	protected void onResume() {
@@ -197,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		Helperclass helper6 = new Helperclass();
 		helper6.disableAllNetworks(this.netId);
-		
+		disableAllNetworks();
 
 		super.onResume();
 	}
