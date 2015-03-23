@@ -14,8 +14,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -226,12 +224,22 @@ public class MainActivity extends ActionBarActivity {
 
 				}
 			});
-			RssiRechner rssi = new RssiRechner();
 
 			for (int i = 0; i < scanResultate.size(); i++) {
 
-				wifiListe[i] = ((scanResultate.get(i)).SSID.toString() + "  "+
-					WifiManager.calculateSignalLevel(scanResultate.get(i).level, 100)+ "%");//	+ rssi.rechneRSSIinProzent(scanResultate.get(i).level) + "%");
+//				if (scanResultate.get(i).SSID
+//						.equals(scanResultate.get(i ++).SSID)) {
+//
+//				}else if (scanResultate.get(i).level < scanResultate.get(i+1).level){
+//					scanResultate.remove(i+1);
+//				}
+//					
+				
+
+				wifiListe[i] = ((scanResultate.get(i)).SSID.toString()
+						+ "  "
+						+ WifiManager.calculateSignalLevel(
+								scanResultate.get(i).level, 100) + "%");
 
 			}
 
