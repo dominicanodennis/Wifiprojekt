@@ -230,8 +230,8 @@ public class MainActivity extends ActionBarActivity {
 
 			for (int i = 0; i < scanResultate.size(); i++) {
 
-				wifiListe[i] = ((scanResultate.get(i)).SSID.toString() + "  "
-						+ rssi.rechneRSSIinProzent(scanResultate.get(i).level) + "%");
+				wifiListe[i] = ((scanResultate.get(i)).SSID.toString() + "  "+
+					WifiManager.calculateSignalLevel(scanResultate.get(i).level, 100)+ "%");//	+ rssi.rechneRSSIinProzent(scanResultate.get(i).level) + "%");
 
 			}
 
