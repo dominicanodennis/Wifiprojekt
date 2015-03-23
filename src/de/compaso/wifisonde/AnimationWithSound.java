@@ -5,7 +5,7 @@ import android.media.MediaPlayer;
 
 import com.abhi.gif.lib.AnimatedGifImageView;
 import com.abhi.gif.lib.AnimatedGifImageView.TYPE;
-import com.example.wifiprojekt.R;
+
 
 public class AnimationWithSound {
 
