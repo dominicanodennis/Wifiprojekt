@@ -1,5 +1,7 @@
 package de.compaso.wifiprojekt;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.abhi.gif.lib.AnimatedGifImageView;
@@ -19,22 +21,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 public class TrackingActivity extends FragmentActivity {
 
 	private AnimatedGifImageView animatedGifImageView;
-	String empfangSSID;
-	TextView textfeld1, textfeld2;
-	WifiManager wifimanager;
-	WifiReceiver2 wifiReceiver;
-	String wifiliste[];
-	List<ScanResult> scanresultate;
+	TextView textFeld1, textFeld2;
+	WifiManager wifiManager;
+	WifiReceiver2 wifiReceiver2;
+	String wifiListe[];
+	List<ScanResult> scanResultate;
 	int netId;
 	int rssiLevel;
 	int wifilevel = 0;
 	String bssid, ssid;
-	ScanResult scanresult;
-	MainActivity main;
 	Button button1, button2;
 	boolean back = false;
 
@@ -43,12 +41,12 @@ public class TrackingActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracking);
 
-		wifimanager = (WifiManager) getSystemService(WIFI_SERVICE);
+		wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
 
 		button1 = (Button) findViewById(R.id.button1);
 		button2 = (Button) findViewById(R.id.button2);
-		textfeld1 = (TextView) findViewById(R.id.textView1);
-		textfeld2 = (TextView) findViewById(R.id.textView2);
+		textFeld1 = (TextView) findViewById(R.id.textView1);
+		textFeld2 = (TextView) findViewById(R.id.textView2);
 
 		animatedGifImageView = ((AnimatedGifImageView) findViewById(R.id.animatedGifImageView1));
 		animatedGifImageView.setAnimatedGif(R.raw.gruen, TYPE.FIT_CENTER);
@@ -88,30 +86,30 @@ public class TrackingActivity extends FragmentActivity {
 	}
 
 	public void disableAllNetworks() {
-		List<WifiConfiguration> wificonfigliste = wifimanager
+		List<WifiConfiguration> wificonfigliste = wifiManager
 				.getConfiguredNetworks();
 
 		for (WifiConfiguration config : wificonfigliste) {
 			this.netId = config.networkId;
-			wifimanager.disableNetwork(this.netId);
+			wifiManager.disableNetwork(this.netId);
 		}
 
 	}
 
 	public void enableAllNetworks() {
-		List<WifiConfiguration> wificonfigliste = wifimanager
+		List<WifiConfiguration> wificonfigliste = wifiManager
 				.getConfiguredNetworks();
 		for (WifiConfiguration config : wificonfigliste) {
 			this.netId = config.networkId;
-			wifimanager.enableNetwork(this.netId, true);
+			wifiManager.enableNetwork(this.netId, true);
 		}
 	}
 
 	public void scanne() {
-		wifiReceiver = new WifiReceiver2();
-		registerReceiver(wifiReceiver, new IntentFilter(
+		wifiReceiver2 = new WifiReceiver2();
+		registerReceiver(wifiReceiver2, new IntentFilter(
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-		wifimanager.startScan();
+		wifiManager.startScan();
 
 	}
 
@@ -127,7 +125,7 @@ public class TrackingActivity extends FragmentActivity {
 	}
 
 	protected void onPause() {
-		unregisterReceiver(wifiReceiver);
+		unregisterReceiver(wifiReceiver2);
 		super.onPause();
 	}
 
@@ -145,8 +143,8 @@ public class TrackingActivity extends FragmentActivity {
 
 	@Override
 	protected void onRestart() {
-		if (!wifimanager.isWifiEnabled()) {
-			wifimanager.setWifiEnabled(true);
+		if (!wifiManager.isWifiEnabled()) {
+			wifiManager.setWifiEnabled(true);
 			Helperclass helper6 = new Helperclass();
 			helper6.disableAllNetworks(this.netId);
 
@@ -160,13 +158,13 @@ public class TrackingActivity extends FragmentActivity {
 	}
 
 	protected void onResume() {
-		registerReceiver(wifiReceiver, new IntentFilter(
+		registerReceiver(wifiReceiver2, new IntentFilter(
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-		if (!wifimanager.isWifiEnabled()) {
-			wifimanager.setWifiEnabled(true);
+		if (!wifiManager.isWifiEnabled()) {
+			wifiManager.setWifiEnabled(true);
 			Helperclass helper6 = new Helperclass();
 			helper6.disableAllNetworks(this.netId);
-			
+
 			disableAllNetworks();
 
 		} else {
@@ -180,36 +178,36 @@ public class TrackingActivity extends FragmentActivity {
 
 	class WifiReceiver2 extends BroadcastReceiver {
 		public void onReceive(Context c, Intent intent) {
-			ScanResult result2 = null;
-			scanresultate = wifimanager.getScanResults();
+			ScanResult scanResult = null;
+			scanResultate = wifiManager.getScanResults();
 
-			if (scanresultate != null) {
-				for (ScanResult result : scanresultate) {
+			if (scanResultate != null) {
+				for (ScanResult result : scanResultate) {
 
 					if (result.BSSID.equals(bssid)) {
 
-						result2 = result;
+						scanResult = result;
 						break;
 					}
 
 				}
 			}
 
-			if (result2 != null) {
-				rssiLevel = result2.level;
-				wifilevel = WifiManager
-						.calculateSignalLevel(result2.level, 100);
-				ssid = result2.SSID;
+			if (scanResult != null) {
+				rssiLevel = scanResult.level;
+				wifilevel = WifiManager.calculateSignalLevel(scanResult.level,
+						100);
+				ssid = scanResult.SSID;
 
-				textfeld2.setText("Signallevel: " + rssiLevel + " %");
-				textfeld1.setText("Tracke: " + ssid);
+				textFeld1.setText("Scane: " + ssid);
+				textFeld2.setText("Signallevel: " + rssiLevel + " %");
 
 				AnimationWithSound animation = new AnimationWithSound(
 						rssiLevel, getApplicationContext());
 				animation.setAnimationAndSound(animatedGifImageView);
 			} else {
-				textfeld2.setText("Signallevel: " + 0 + " %");
-				textfeld1.setText("Tracke: " + ssid);
+				textFeld1.setText("Suche: " + ssid);
+				textFeld2.setText("ausserhalb der Reichweite");
 
 				AnimationWithSound animation = new AnimationWithSound(-99,
 						getApplicationContext());

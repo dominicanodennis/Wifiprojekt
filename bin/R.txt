@@ -434,10 +434,8 @@ int layout abc_simple_dropdown_hint 0x7f030016
 int layout activity_gif_main 0x7f030017
 int layout activity_main 0x7f030018
 int layout activity_tracking 0x7f030019
-int layout fragment_one 0x7f03001a
-int layout mein_fragment 0x7f03001b
-int layout single_list 0x7f03001c
-int layout support_simple_spinner_dropdown_item 0x7f03001d
+int layout single_list 0x7f03001a
+int layout support_simple_spinner_dropdown_item 0x7f03001b
 int menu main 0x7f0d0000
 int menu start 0x7f0d0001
 int menu tracking 0x7f0d0002

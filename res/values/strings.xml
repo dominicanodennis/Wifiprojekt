@@ -8,6 +8,6 @@
     <string name="title_activity_tracking">TrackingActivity</string>
     <string name="ssid_ssid">RSSI :</string>
     <string name="button_wifiliste">Zurück zur Wifiliste</string>
-    <string name="button_tracking">Tracking beenden</string>
+    <string name="button_tracking">Wifisonde beenden</string>
 
 </resources>

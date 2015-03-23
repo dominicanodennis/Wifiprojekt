@@ -34,10 +34,10 @@ public class MainActivity extends ActionBarActivity {
 
 	static WifiManager wifiManager;
 	private WifiReceiver wifiReceiver;
-	private ListView listview;
-	private String wifiliste[];
+	private ListView listView;
+	private String wifiListe[];
 	private Toast toast1, toast2, toast3, toast4;
-	private List<ScanResult> scanresultate;
+	private List<ScanResult> scanResultate;
 	private int netId;
 	private String bssid, ssid;
 	private boolean forward = false;
@@ -47,19 +47,19 @@ public class MainActivity extends ActionBarActivity {
 		Log.i("CREATE", "On create");
 		setContentView(R.layout.activity_main);
 
-		listview = (ListView) findViewById(R.id.listView1);
+		listView = (ListView) findViewById(R.id.listView1);
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
 		WifiManager.WifiLock lock = wifiManager.createWifiLock(
 				WifiManager.WIFI_MODE_SCAN_ONLY, "Scan_only");
 
 		lock.acquire();
-		
+
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		if (!wifiManager.isWifiEnabled()) {
 			Log.i("WIFI-DISABLED", "Wifi is diabled: enabling");
-			
+
 			toast4 = Toast
 					.makeText(this, "schalte Wlan ein", Toast.LENGTH_LONG);
 			toast4.setGravity(Gravity.CENTER, 0, 75);
@@ -74,25 +74,26 @@ public class MainActivity extends ActionBarActivity {
 
 			Helperclass helper1 = new Helperclass();
 			helper1.disableAllNetworks(this.netId);
-			
-			NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-			
-			Log.i("WIFI-Connected", "Is connected: " + networkInfo.isConnected());
+
+			NetworkInfo networkInfo = connectivityManager
+					.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+			Log.i("WIFI-Connected",
+					"Is connected: " + networkInfo.isConnected());
 		}
 
 		Helperclass helper2 = new Helperclass();
 		helper2.disableAllNetworks(this.netId);
 
-		
 		scanne();
 
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
-				bssid = scanresultate.get(position).BSSID;
-				ssid = scanresultate.get(position).SSID;
+				bssid = scanResultate.get(position).BSSID;
+				ssid = scanResultate.get(position).SSID;
 
 				finish();
 				Intent intent = new Intent(MainActivity.this,
@@ -105,7 +106,7 @@ public class MainActivity extends ActionBarActivity {
 			}
 		});
 
-		if (listview != null) {
+		if (listView != null) {
 			toast1 = Toast.makeText(getApplicationContext(),
 					"Bitte klicken Sie\ndas gewünschte Wlannetz",
 					Toast.LENGTH_LONG);
@@ -203,13 +204,20 @@ public class MainActivity extends ActionBarActivity {
 		super.onResume();
 	}
 
+	@Override
+	public void onBackPressed() {
+		Helperclass helper5 = new Helperclass();
+		helper5.enableAllNetworks(this.netId);
+		super.onBackPressed();
+	}
+
 	class WifiReceiver extends BroadcastReceiver {
 
 		public void onReceive(Context c, Intent intent) {
-			scanresultate = wifiManager.getScanResults();
-			wifiliste = new String[scanresultate.size()];
+			scanResultate = wifiManager.getScanResults();
+			wifiListe = new String[scanResultate.size()];
 
-			Collections.sort(scanresultate, new Comparator<ScanResult>() {
+			Collections.sort(scanResultate, new Comparator<ScanResult>() {
 
 				@Override
 				public int compare(ScanResult lhs, ScanResult rhs) {
@@ -220,20 +228,20 @@ public class MainActivity extends ActionBarActivity {
 			});
 			RssiRechner rssi = new RssiRechner();
 
-			for (int i = 0; i < scanresultate.size(); i++) {
+			for (int i = 0; i < scanResultate.size(); i++) {
 
-				wifiliste[i] = ((scanresultate.get(i)).SSID.toString() + "  "
-						+ rssi.rechneRSSIinProzent(scanresultate.get(i).level) + "%");
+				wifiListe[i] = ((scanResultate.get(i)).SSID.toString() + "  "
+						+ rssi.rechneRSSIinProzent(scanResultate.get(i).level) + "%");
 
 			}
 
 			List<String> wifiliste2 = new ArrayList<String>(
-					Arrays.asList(wifiliste));
-			listview.setAdapter(new ArrayAdapter<String>(
+					Arrays.asList(wifiListe));
+			listView.setAdapter(new ArrayAdapter<String>(
 					getApplicationContext(),
 					android.R.layout.simple_list_item_1, wifiliste2));
 
-			if (listview != null) {
+			if (listView != null) {
 				toast3 = Toast.makeText(getApplicationContext(),
 						R.string.update_info, Toast.LENGTH_SHORT);
 				toast3.setGravity(Gravity.CENTER, 0, 75);
@@ -241,13 +249,6 @@ public class MainActivity extends ActionBarActivity {
 			}
 		}
 
-	}
-
-	@Override
-	public void onBackPressed() {
-		Helperclass helper5 = new Helperclass();
-		helper5.enableAllNetworks(this.netId);
-		super.onBackPressed();
 	}
 
 }
