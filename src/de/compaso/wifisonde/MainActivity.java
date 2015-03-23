@@ -228,13 +228,11 @@ public class MainActivity extends ActionBarActivity {
 			for (int i = 0; i < scanResultate.size(); i++) {
 
 //				if (scanResultate.get(i).SSID
-//						.equals(scanResultate.get(i ++).SSID)) {
+//						.equals(scanResultate.get(i + 1).SSID)
+//						&& scanResultate.get(i).level > scanResultate.get(i+1).level) {
 //
-//				}else if (scanResultate.get(i).level < scanResultate.get(i+1).level){
 //					scanResultate.remove(i+1);
 //				}
-//					
-				
 
 				wifiListe[i] = ((scanResultate.get(i)).SSID.toString()
 						+ "  "
