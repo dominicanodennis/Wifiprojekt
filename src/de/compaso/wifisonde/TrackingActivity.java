@@ -29,7 +29,7 @@ public class TrackingActivity extends FragmentActivity {
 	List<ScanResult> scanResultate;
 	int netId;
 	int rssiLevel;
-	int wifilevel = 0;
+	int wifiLevel = 0;
 	String bssid, ssid;
 	Button button1, button2;
 	boolean back = false;
@@ -193,12 +193,12 @@ public class TrackingActivity extends FragmentActivity {
 
 			if (scanResult != null) {
 				rssiLevel = scanResult.level;
-				wifilevel = WifiManager.calculateSignalLevel(scanResult.level,
+				wifiLevel = WifiManager.calculateSignalLevel(scanResult.level,
 						100);
 				ssid = scanResult.SSID;
 
 				textFeld1.setText("Scane: " + ssid);
-				textFeld2.setText("Signallevel: " + rssiLevel + " %");
+				textFeld2.setText("Signallevel: " + wifiLevel + " %");
 
 				AnimationWithSound animation = new AnimationWithSound(
 						rssiLevel, getApplicationContext());
