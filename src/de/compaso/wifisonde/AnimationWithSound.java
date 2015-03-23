@@ -1,4 +1,4 @@
-package de.compaso.wifiprojekt;
+package de.compaso.wifisonde;
 
 import android.content.Context;
 import android.media.MediaPlayer;

@@ -1,4 +1,4 @@
-package de.compaso.wifiprojekt;
+package de.compaso.wifisonde;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.example.wifiprojekt.R;
+
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -1,7 +1,5 @@
-package de.compaso.wifiprojekt;
+package de.compaso.wifisonde;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import com.abhi.gif.lib.AnimatedGifImageView;
