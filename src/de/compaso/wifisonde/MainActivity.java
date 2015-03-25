@@ -220,6 +220,8 @@ public class MainActivity extends ActionBarActivity {
 
 			ArrayList<ScanResult> mItems = new ArrayList<ScanResult>();
 			HashMap<String, Integer> signalStrength = new HashMap<String, Integer>();
+			
+		//	mItems = (ArrayList<ScanResult>) scanResultate;
 
 			Collections.sort(scanResultate, new Comparator<ScanResult>() {
 
@@ -231,51 +233,47 @@ public class MainActivity extends ActionBarActivity {
 				}
 			});
 
-//			for (int i = 0; i < size; i++) {
-//				ScanResult result = scanResultate.get(i);
-//				if (!result.SSID.isEmpty()) {
-//					String key = result.SSID + " " + result.capabilities;
-//
-//					if (!signalStrength.containsKey(key)) {
-//						signalStrength.put(key, i);
-//						mItems.add(result);
-//						// adapter.notifyDataSetChanged();
-//					} else {
-//						int position = signalStrength.get(key);
-//						ScanResult updateItem = mItems.get(position);
-//						if (calculateSignalStength(wifiManager,
-//								updateItem.level) > calculateSignalStength(
-//								wifiManager, result.level)) {
-//							mItems.set(position, updateItem);
-//
-//							// adapter.notifyDataSetChanged();
-//
-//						}
-//					}
-//				}
-//			}
+			for (int i = 0; i < size; i++) {
+				ScanResult result = scanResultate.get(i);
+				if (!result.SSID.isEmpty()) {
+					String key = result.SSID + " " + result.capabilities;
+					
 
-			for (int i = 0; i < scanResultate.size(); i++) {
+					if (!signalStrength.containsKey(key)) {
+						signalStrength.put(key, i);
+						mItems.add(result);
+					//	adapter.notifyDataSetChanged();
+					} else {
+						int position = signalStrength.get(key);
+						ScanResult updateItem = mItems.get(position);
+						if (calculateSignalStength(wifiManager,
+								updateItem.level) > calculateSignalStength(
+								wifiManager, result.level)) {
+							mItems.set(position, updateItem);
+							if(result.SSID.equals(updateItem.SSID)){
+								
+							}
+						//	adapter.notifyDataSetChanged();
 
-				wifiListe[i] = ((scanResultate.get(i)).SSID.toString()
+						}
+					}
+				}
+			}
+
+			for (int i = 0; i < mItems.size(); i++) {
+
+				wifiListe[i] = ((mItems.get(i)).SSID.toString()
 						+ "  "
-						+ WifiManager.calculateSignalLevel(scanResultate.get(i).level,
+						+ WifiManager.calculateSignalLevel(mItems.get(i).level,
 								100) + "%");
 
 			}
 
-			List<String> wifiListe2 = new ArrayList<String>(
-					Arrays.asList(wifiListe));
-
-			// listView.setAdapter(new ArrayAdapter<String>(
-			// getApplicationContext(),
-			// android.R.layout.simple_list_item_1, wifiListe2));
-
 			adapter = new ArrayAdapter<String>(getApplicationContext(),
 					android.R.layout.simple_list_item_1, wifiListe);
-
+			adapter.notifyDataSetChanged();
 			listView.setAdapter(adapter);
-			 adapter.notifyDataSetChanged();
+			 
 
 			if (listView != null) {
 				toast3 = Toast.makeText(getApplicationContext(),
