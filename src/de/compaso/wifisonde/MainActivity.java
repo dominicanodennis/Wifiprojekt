@@ -214,8 +214,7 @@ public class MainActivity extends ActionBarActivity {
 		public void onReceive(Context c, Intent intent) {
 			scanResultate = wifiManager.getScanResults();
 			wifiListe = new String[scanResultate.size()];
-			ScanResult scanResult = null;
-			ScanResult scanResult2 = null;
+			
 
 			Collections.sort(scanResultate, new Comparator<ScanResult>() {
 
@@ -229,13 +228,7 @@ public class MainActivity extends ActionBarActivity {
 
 			for (int i = 0; i < scanResultate.size(); i++) {
 
-				// if (scanResultate.get(i).SSID
-				// .equals(scanResultate.get(i + 1).SSID)
-				// && scanResultate.get(i).level > scanResultate.get(i+1).level)
-				// {
-				//
-				// scanResultate.remove(i+1);
-				// }
+				
 
 				wifiListe[i] = ((scanResultate.get(i)).SSID.toString()
 						+ "  "
