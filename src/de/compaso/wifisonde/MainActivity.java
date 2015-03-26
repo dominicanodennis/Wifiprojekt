@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -214,6 +217,8 @@ public class MainActivity extends ActionBarActivity {
 		public void onReceive(Context c, Intent intent) {
 			scanResultate = wifiManager.getScanResults();
 			wifiListe = new String[scanResultate.size()];
+			Map<String, ScanResult> filteredResults = new LinkedHashMap<>();
+			List<String> resultLinesList = new LinkedList<>();
 			RssiRechner rssiRechner = new RssiRechner();
 
 			Collections.sort(scanResultate, new Comparator<ScanResult>() {
@@ -226,29 +231,35 @@ public class MainActivity extends ActionBarActivity {
 				}
 			});
 
-			for (int i = 0; i < scanResultate.size(); i++) {
-
-				// if (scanResultate.get(i).SSID
-				// .equals(scanResultate.get(i + 1).SSID)
-				// && scanResultate.get(i).level > scanResultate.get(i+1).level)
-				// {
-				//
-				// scanResultate.remove(i+1);
-				// }
-
-				wifiListe[i] = ((scanResultate.get(i)).SSID.toString()
-						+ "  "
-						+ rssiRechner.rechneRSSIinProzent(
-								scanResultate.get(i).level) + "%");
-
+			for (ScanResult scanResult : scanResultate) {
+				if (!filteredResults.containsKey(scanResult.SSID)
+						|| scanResult.level > filteredResults
+								.get(scanResult.SSID).level) {
+					filteredResults.put(scanResult.SSID, scanResult);
+				}
 			}
 
-		//	List<String> wifiliste2 = new ArrayList<String>(
-			//		Arrays.asList(wifiListe));
-			
+			for (ScanResult scanResult : filteredResults.values()) {
+				resultLinesList.add(scanResult.SSID + " - " + scanResult.level);
+			}
+			String[] resultLines = resultLinesList
+					.toArray(new String[resultLinesList.size()]);
+
+			// for (int i = 0; i < scanResultate.size(); i++) {
+			//
+			// wifiListe[i] = ((scanResultate.get(i)).SSID.toString()
+			// + "  "
+			// + rssiRechner
+			// .rechneRSSIinProzent(scanResultate.get(i).level) + "%");
+			//
+			// }
+
+			// List<String> wifiliste2 = new ArrayList<String>(
+			// Arrays.asList(wifiListe));
+
 			listView.setAdapter(new ArrayAdapter<String>(
 					getApplicationContext(),
-					android.R.layout.simple_list_item_1, wifiListe));
+					android.R.layout.simple_list_item_1, resultLines));
 
 			if (listView != null) {
 				toast3 = Toast.makeText(getApplicationContext(),
