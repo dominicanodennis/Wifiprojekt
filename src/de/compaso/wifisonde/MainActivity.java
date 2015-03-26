@@ -242,7 +242,7 @@ public class MainActivity extends ActionBarActivity {
 			List<String> resultLinesList = new LinkedList<>();
 			
 			for (ScanResult scanResult : filteredResults.values()) {
-				resultLinesList.add(scanResult.SSID + "  " + scanResult.level);
+				resultLinesList.add(scanResult.SSID + "  " + scanResult.level+ " dbm");
 			}
 			String[] resultLines = resultLinesList
 					.toArray(new String[resultLinesList.size()]);
