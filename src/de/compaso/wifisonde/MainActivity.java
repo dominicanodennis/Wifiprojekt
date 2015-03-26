@@ -217,8 +217,8 @@ public class MainActivity extends ActionBarActivity {
 		public void onReceive(Context c, Intent intent) {
 			scanResultate = wifiManager.getScanResults();
 			wifiListe = new String[scanResultate.size()];
-			Map<String, ScanResult> filteredResults = new LinkedHashMap<>();
-			List<String> resultLinesList = new LinkedList<>();
+			
+			
 			RssiRechner rssiRechner = new RssiRechner();
 
 			Collections.sort(scanResultate, new Comparator<ScanResult>() {
@@ -230,7 +230,8 @@ public class MainActivity extends ActionBarActivity {
 
 				}
 			});
-
+			Map<String, ScanResult> filteredResults = new LinkedHashMap<>();
+			
 			for (ScanResult scanResult : scanResultate) {
 				if (!filteredResults.containsKey(scanResult.SSID)
 						|| scanResult.level > filteredResults
@@ -238,9 +239,10 @@ public class MainActivity extends ActionBarActivity {
 					filteredResults.put(scanResult.SSID, scanResult);
 				}
 			}
-
+			List<String> resultLinesList = new LinkedList<>();
+			
 			for (ScanResult scanResult : filteredResults.values()) {
-				resultLinesList.add(scanResult.SSID + " - " + scanResult.level);
+				resultLinesList.add(scanResult.SSID + "  " + scanResult.level);
 			}
 			String[] resultLines = resultLinesList
 					.toArray(new String[resultLinesList.size()]);

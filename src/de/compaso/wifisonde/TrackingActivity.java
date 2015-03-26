@@ -1,10 +1,11 @@
 package de.compaso.wifisonde;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.abhi.gif.lib.AnimatedGifImageView;
 import com.abhi.gif.lib.AnimatedGifImageView.TYPE;
-
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -129,8 +130,10 @@ public class TrackingActivity extends FragmentActivity {
 
 	@Override
 	// wenn back nicht true ist, führe Anweisung aus
-	// wenn  inBackPressed() oder backToWifiList() nicht aufgerufen wurde ist back nicht true
-	// ansonsten gehe ins else und weise back wieder false zu und der Kreis schliesst sich
+	// wenn inBackPressed() oder backToWifiList() nicht aufgerufen wurde ist
+	// back nicht true
+	// ansonsten gehe ins else und weise back wieder false zu und der Kreis
+	// schliesst sich
 	protected void onStop() {
 		if (!back) {
 			Helperclass helper4 = new Helperclass();
@@ -179,26 +182,35 @@ public class TrackingActivity extends FragmentActivity {
 
 	class WifiReceiver2 extends BroadcastReceiver {
 		public void onReceive(Context c, Intent intent) {
-			ScanResult scanResult = null;
+			ScanResult scanResult1 = null;
 			scanResultate = wifiManager.getScanResults();
 			RssiRechner rssiRechner = new RssiRechner();
 
+			Map<String, ScanResult> filteredResults = new LinkedHashMap<>();
+			for (ScanResult scanResult2 : scanResultate) {
+				if (!filteredResults.containsKey(scanResult2.SSID)
+						|| scanResult2.level > filteredResults
+								.get(scanResult2.SSID).level) {
+					filteredResults.put(scanResult2.SSID, scanResult2);
+				}
+			}
+
 			if (scanResultate != null) {
-				for (ScanResult result : scanResultate) {
+				for (ScanResult scanResult3 : filteredResults.values()) {
 
-					if (result.BSSID.equals(bssid)) {
+					if (scanResult3.SSID.equals(ssid)) {
 
-						scanResult = result;
+						scanResult1 = scanResult3;
 						break;
 					}
 
 				}
 			}
 
-			if (scanResult != null) {
-				rssiLevel = scanResult.level;
-				wifiLevel = rssiRechner.rechneRSSIinProzent(scanResult.level);
-				ssid = scanResult.SSID;
+			if (scanResult1 != null) {
+				rssiLevel = scanResult1.level;
+				wifiLevel = rssiRechner.rechneRSSIinProzent(scanResult1.level);
+				ssid = scanResult1.SSID;
 
 				textFeld1.setText("Scane: " + ssid);
 				textFeld2.setText("Signallevel: " + wifiLevel + " %");
