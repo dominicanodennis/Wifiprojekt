@@ -128,6 +128,9 @@ public class TrackingActivity extends FragmentActivity {
 	}
 
 	@Override
+	// wenn back nicht true ist, führe Anweisung aus
+	// wenn  inBackPressed() oder backToWifiList() nicht aufgerufen wurde ist back nicht true
+	// ansonsten gehe ins else und weise back wieder false zu und der Kreis schliesst sich
 	protected void onStop() {
 		if (!back) {
 			Helperclass helper4 = new Helperclass();
@@ -178,6 +181,7 @@ public class TrackingActivity extends FragmentActivity {
 		public void onReceive(Context c, Intent intent) {
 			ScanResult scanResult = null;
 			scanResultate = wifiManager.getScanResults();
+			RssiRechner rssiRechner = new RssiRechner();
 
 			if (scanResultate != null) {
 				for (ScanResult result : scanResultate) {
@@ -193,8 +197,7 @@ public class TrackingActivity extends FragmentActivity {
 
 			if (scanResult != null) {
 				rssiLevel = scanResult.level;
-				wifiLevel = WifiManager.calculateSignalLevel(scanResult.level,
-						100);
+				wifiLevel = rssiRechner.rechneRSSIinProzent(scanResult.level);
 				ssid = scanResult.SSID;
 
 				textFeld1.setText("Scane: " + ssid);

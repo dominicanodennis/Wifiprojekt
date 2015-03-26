@@ -23,9 +23,9 @@ public class AnimationWithSound {
 
 	public AnimatedGifImageView setAnimationAndSound(AnimatedGifImageView view) {
 
-		if (rssi <= 0 && rssi >= -50) {
+		if (rssi <= 0 && rssi >= -55) {
 			switchValue = 1;
-		} else if (rssi <= -51 && rssi >= -60) {
+		} else if (rssi <= -56 && rssi >= -60) {
 			switchValue = 2;
 		} else if (rssi <= -61 && rssi >= -70) {
 			switchValue = 3;

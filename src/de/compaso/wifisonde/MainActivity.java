@@ -214,8 +214,7 @@ public class MainActivity extends ActionBarActivity {
 		public void onReceive(Context c, Intent intent) {
 			scanResultate = wifiManager.getScanResults();
 			wifiListe = new String[scanResultate.size()];
-			ScanResult scanResult = null;
-			ScanResult scanResult2 = null;
+			RssiRechner rssiRechner = new RssiRechner();
 
 			Collections.sort(scanResultate, new Comparator<ScanResult>() {
 
@@ -239,16 +238,17 @@ public class MainActivity extends ActionBarActivity {
 
 				wifiListe[i] = ((scanResultate.get(i)).SSID.toString()
 						+ "  "
-						+ WifiManager.calculateSignalLevel(
-								scanResultate.get(i).level, 100) + "%");
+						+ rssiRechner.rechneRSSIinProzent(
+								scanResultate.get(i).level) + "%");
 
 			}
 
-			List<String> wifiliste2 = new ArrayList<String>(
-					Arrays.asList(wifiListe));
+		//	List<String> wifiliste2 = new ArrayList<String>(
+			//		Arrays.asList(wifiListe));
+			
 			listView.setAdapter(new ArrayAdapter<String>(
 					getApplicationContext(),
-					android.R.layout.simple_list_item_1, wifiliste2));
+					android.R.layout.simple_list_item_1, wifiListe));
 
 			if (listView != null) {
 				toast3 = Toast.makeText(getApplicationContext(),
