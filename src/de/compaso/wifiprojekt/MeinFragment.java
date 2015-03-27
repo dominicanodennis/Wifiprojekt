@@ -1,6 +1,6 @@
 package de.compaso.wifiprojekt;
 
-import com.example.wifiprojekt.R;
+
 
 import android.app.Fragment;
 import android.os.Bundle;
