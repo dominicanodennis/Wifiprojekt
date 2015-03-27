@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.example.wifiprojekt.R;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

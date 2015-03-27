@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.abhi.gif.lib.AnimatedGifImageView;
 import com.abhi.gif.lib.AnimatedGifImageView.TYPE;
-import com.example.wifiprojekt.R;
+
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
