@@ -73,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
 
 		} else {
 
-			Helperclass helper1 = new Helperclass();
+			Helperclass helper1 = new Helperclass(wifiManager);
 			helper1.disableAllNetworks(this.netId);
 
 			NetworkInfo networkInfo = connectivityManager
@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
 					"Is connected: " + networkInfo.isConnected());
 		}
 
-		Helperclass helper2 = new Helperclass();
+		Helperclass helper2 = new Helperclass(wifiManager);
 		helper2.disableAllNetworks(this.netId);
 
 		scanne();
@@ -148,7 +148,7 @@ public class MainActivity extends ActionBarActivity {
 	public void restartActivity() {
 		finish();
 		startActivity(getIntent());
-		Helperclass helper3 = new Helperclass();
+		Helperclass helper3 = new Helperclass(wifiManager);
 		helper3.disableAllNetworks(this.netId);
 	}
 
@@ -177,7 +177,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onStop() {
 		if (!forward) {
-			Helperclass helper4 = new Helperclass();
+			Helperclass helper4 = new Helperclass(wifiManager);
 			helper4.enableAllNetworks(this.netId);
 			enableAllNetworks();
 		} else {
@@ -190,7 +190,7 @@ public class MainActivity extends ActionBarActivity {
 	protected void onStart() {
 		if (!wifiManager.isWifiEnabled())
 			wifiManager.setWifiEnabled(true);
-		Helperclass helper5 = new Helperclass();
+		Helperclass helper5 = new Helperclass(wifiManager);
 		helper5.disableAllNetworks(this.netId);
 		super.onStart();
 	}
@@ -198,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
 	protected void onResume() {
 		registerReceiver(wifiReceiver, new IntentFilter(
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-		Helperclass helper6 = new Helperclass();
+		Helperclass helper6 = new Helperclass(wifiManager);
 		helper6.disableAllNetworks(this.netId);
 		disableAllNetworks();
 
@@ -207,7 +207,7 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public void onBackPressed() {
-		Helperclass helper5 = new Helperclass();
+		Helperclass helper5 = new Helperclass(wifiManager);
 		helper5.enableAllNetworks(this.netId);
 		super.onBackPressed();
 	}
@@ -217,8 +217,7 @@ public class MainActivity extends ActionBarActivity {
 		public void onReceive(Context c, Intent intent) {
 			scanResultate = wifiManager.getScanResults();
 			wifiListe = new String[scanResultate.size()];
-			
-			
+
 			RssiRechner rssiRechner = new RssiRechner();
 
 			Collections.sort(scanResultate, new Comparator<ScanResult>() {
@@ -231,7 +230,7 @@ public class MainActivity extends ActionBarActivity {
 				}
 			});
 			Map<String, ScanResult> filteredResults = new LinkedHashMap<>();
-			
+
 			for (ScanResult scanResult : scanResultate) {
 				if (!filteredResults.containsKey(scanResult.SSID)
 						|| scanResult.level > filteredResults
@@ -240,24 +239,15 @@ public class MainActivity extends ActionBarActivity {
 				}
 			}
 			List<String> resultLinesList = new LinkedList<>();
-			
+
 			for (ScanResult scanResult : filteredResults.values()) {
-				resultLinesList.add(scanResult.SSID + "  " + scanResult.level+ " dbm");
+				resultLinesList.add(scanResult.SSID + "  " + scanResult.level
+						+ " dbm / "
+						+ rssiRechner.rechneRSSIinProzent(scanResult.level)
+						+ " %");
 			}
 			String[] resultLines = resultLinesList
 					.toArray(new String[resultLinesList.size()]);
-
-			// for (int i = 0; i < scanResultate.size(); i++) {
-			//
-			// wifiListe[i] = ((scanResultate.get(i)).SSID.toString()
-			// + "  "
-			// + rssiRechner
-			// .rechneRSSIinProzent(scanResultate.get(i).level) + "%");
-			//
-			// }
-
-			// List<String> wifiliste2 = new ArrayList<String>(
-			// Arrays.asList(wifiListe));
 
 			listView.setAdapter(new ArrayAdapter<String>(
 					getApplicationContext(),

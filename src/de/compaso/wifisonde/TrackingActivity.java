@@ -50,7 +50,7 @@ public class TrackingActivity extends FragmentActivity {
 		animatedGifImageView = ((AnimatedGifImageView) findViewById(R.id.animatedGifImageView1));
 		animatedGifImageView.setAnimatedGif(R.raw.gruen, TYPE.FIT_CENTER);
 
-		Helperclass helper1 = new Helperclass();
+		Helperclass helper1 = new Helperclass(wifiManager);
 		helper1.disableAllNetworks(this.netId);
 
 		Intent intent = getIntent();
@@ -64,14 +64,15 @@ public class TrackingActivity extends FragmentActivity {
 	public void restartActivity(View view) {
 		finish();
 		startActivity(getIntent());
-		Helperclass helper3 = new Helperclass();
+		Helperclass helper3 = new Helperclass(wifiManager);
 		helper3.disableAllNetworks(this.netId);
 
 	}
 
 	public void beendeApp(View view) {
-		Helperclass helper5 = new Helperclass();
+		Helperclass helper5 = new Helperclass(wifiManager);
 		helper5.enableAllNetworks(this.netId);
+		enableAllNetworks();
 
 		System.exit(1);
 	}
@@ -114,7 +115,7 @@ public class TrackingActivity extends FragmentActivity {
 
 	@Override
 	public void onBackPressed() {
-		Helperclass helper4 = new Helperclass();
+		Helperclass helper4 = new Helperclass(wifiManager);
 		helper4.disableAllNetworks(this.netId);
 		finish();
 		Intent intent = new Intent(this, MainActivity.class);
@@ -136,7 +137,7 @@ public class TrackingActivity extends FragmentActivity {
 	// schliesst sich
 	protected void onStop() {
 		if (!back) {
-			Helperclass helper4 = new Helperclass();
+			Helperclass helper4 = new Helperclass(wifiManager);
 			helper4.enableAllNetworks(this.netId);
 			enableAllNetworks();
 		} else {
@@ -149,11 +150,11 @@ public class TrackingActivity extends FragmentActivity {
 	protected void onRestart() {
 		if (!wifiManager.isWifiEnabled()) {
 			wifiManager.setWifiEnabled(true);
-			Helperclass helper6 = new Helperclass();
+			Helperclass helper6 = new Helperclass(wifiManager);
 			helper6.disableAllNetworks(this.netId);
 
 		} else {
-			Helperclass helper7 = new Helperclass();
+			Helperclass helper7 = new Helperclass(wifiManager);
 			helper7.disableAllNetworks(this.netId);
 
 		}
@@ -166,15 +167,15 @@ public class TrackingActivity extends FragmentActivity {
 				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		if (!wifiManager.isWifiEnabled()) {
 			wifiManager.setWifiEnabled(true);
-			Helperclass helper6 = new Helperclass();
+			Helperclass helper6 = new Helperclass(wifiManager);
 			helper6.disableAllNetworks(this.netId);
 
-			disableAllNetworks();
+		//	disableAllNetworks();
 
 		} else {
-			Helperclass helper7 = new Helperclass();
+			Helperclass helper7 = new Helperclass(wifiManager);
 			helper7.disableAllNetworks(this.netId);
-			disableAllNetworks();
+		//	disableAllNetworks();
 
 		}
 		super.onResume();
