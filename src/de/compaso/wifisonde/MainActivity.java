@@ -1,4 +1,4 @@
-package de.compaso.wifiprojekt;
+package de.compaso.wifisonde;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

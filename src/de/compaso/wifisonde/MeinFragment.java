@@ -1,4 +1,4 @@
-package de.compaso.wifiprojekt;
+package de.compaso.wifisonde;
 
 
 
